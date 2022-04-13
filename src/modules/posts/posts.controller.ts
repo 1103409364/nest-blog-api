@@ -1,3 +1,4 @@
+import { PostsService } from './posts.service';
 import {
   Body,
   Controller,
@@ -14,47 +15,65 @@ import { CreatePostDto } from './posts.dto';
 @Controller('posts')
 @ApiTags('posts')
 export class PostsController {
+  constructor(private readonly postService: PostsService) {}
   @Get()
-  @ApiOperation({ summary: '搜索帖子' })
-  index() {
-    return [
-      { id: 1, title: 'Hello World' },
-      { id: 2, title: 'Hello World 2' },
-    ];
+  @ApiOperation({ summary: '所有帖子' })
+  async index() {
+    const { res, success } = await this.postService.findAll();
+    return {
+      code: 200,
+      success,
+      data: { list: res },
+    };
   }
   @Get(':id')
-  @ApiOperation({ summary: '获取帖子详情' })
-  show(@Param('id') id: string) {
-    return { id };
+  @ApiOperation({ summary: '获取某个帖子' })
+  async show(@Param('id') id: number) {
+    const { res, success } = await this.postService.findOne(id);
+    return {
+      code: 200,
+      success,
+      data: res,
+    };
   }
 
   @Post()
   @ApiOperation({ summary: '创建帖子' })
-  create(@Body() body: CreatePostDto) {
+  async create(@Body() body: CreatePostDto) {
+    const { success } = await this.postService.create(body);
     return {
-      body,
+      url: '/posts',
+      method: 'POST',
+      success,
     };
   }
 
   @Put(':id')
   @ApiOperation({ summary: '更新帖子' })
-  update(@Param('id') id: string, @Body() body: CreatePostDto) {
+  async update(@Param('id') id: number, @Body() body: CreatePostDto) {
+    const { affected, success } = await this.postService.update(id, {
+      ...body,
+    });
     return {
-      success: true,
-      body,
+      method: 'PUT',
+      id,
+      affected,
+      success,
     };
   }
   @Delete(':id')
   @ApiOperation({ summary: '删除帖子' })
-  destroy(@Param('id') id: string) {
+  async destroy(@Param('id') id: number) {
     const routePath =
       Reflect.getMetadata(PATH_METADATA, PostsController) +
       Reflect.getMetadata(PATH_METADATA, PostsController.prototype.destroy);
+    const { affected, success } = await this.postService.delete(id);
     return {
-      routePath,
+      url: routePath,
       method: 'DELETE',
       id,
-      success: true,
+      affected,
+      success,
     };
   }
 }
