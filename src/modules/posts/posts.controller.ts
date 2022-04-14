@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { PATH_METADATA } from '@nestjs/common/constants';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './posts.dto';
 
 @Controller('posts')
@@ -28,6 +28,7 @@ export class PostsController {
   }
   @Get(':title')
   @ApiOperation({ summary: '获取某个帖子' })
+  @ApiParam({ name: 'title', description: '帖子标题' })
   async show(@Param('title') title: string) {
     const { res, success } = await this.postService.findOne(title);
     return {
