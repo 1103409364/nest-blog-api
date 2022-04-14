@@ -40,8 +40,8 @@ export class PostsController {
 
   @Post()
   @ApiOperation({ summary: '创建帖子' })
-  async create(@Body() body: CreatePostDto) {
-    const { success } = await this.postService.create(body);
+  async create(@Body() createPostDto: CreatePostDto) {
+    const { success } = await this.postService.create(createPostDto);
     return {
       url: '/posts',
       method: 'POST',
