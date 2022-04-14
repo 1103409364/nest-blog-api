@@ -1,7 +1,7 @@
 import { PostsEntity } from './posts.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class PostsService {
@@ -19,9 +19,11 @@ export class PostsService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(title: string) {
     try {
-      const res = await this.postsRepository.findOne({ where: { id } });
+      const res = await this.postsRepository.findOne({
+        where: { title: Like(`%${title}%`) },
+      });
       return { success: true, res };
     } catch (error) {
       return { error, success: false };

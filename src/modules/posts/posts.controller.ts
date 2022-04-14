@@ -26,10 +26,10 @@ export class PostsController {
       data: { list: res },
     };
   }
-  @Get(':id')
+  @Get(':title')
   @ApiOperation({ summary: '获取某个帖子' })
-  async show(@Param('id') id: number) {
-    const { res, success } = await this.postService.findOne(id);
+  async show(@Param('title') title: string) {
+    const { res, success } = await this.postService.findOne(title);
     return {
       code: 200,
       success,
