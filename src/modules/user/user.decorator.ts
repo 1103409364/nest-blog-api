@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { SECRET } from '../../config/secret';
 
