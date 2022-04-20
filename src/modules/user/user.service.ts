@@ -72,9 +72,12 @@ export class UserService {
 
   async update(id: number, dto: UpdateUserDto): Promise<UserEntity> {
     const toUpdate = await this.userRepository.findOne({ where: { id } });
+    if (!toUpdate) {
+      const errors = { User: ' not found' };
+      throw new HttpException({ errors }, HttpStatus.NOT_FOUND);
+    }
     delete toUpdate.password;
     // delete toUpdate.favorites;
-
     const updated = Object.assign(toUpdate, dto);
     return await this.userRepository.save(updated);
   }
