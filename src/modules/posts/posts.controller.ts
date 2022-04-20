@@ -1,4 +1,3 @@
-import { PostsService } from './posts.service';
 import {
   Body,
   Controller,
@@ -8,6 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { PostsService } from './posts.service';
 import { PATH_METADATA } from '@nestjs/common/constants';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './posts.dto';
