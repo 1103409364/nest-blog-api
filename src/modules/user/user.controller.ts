@@ -8,7 +8,12 @@ import {
   Controller,
   UsePipes,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserRO } from './user.interface';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
@@ -23,29 +28,30 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('user')
-  @ApiOperation({ summary: 'findByEmail' })
+  @ApiOperation({ summary: 'find user by email' })
   async findMe(@User('email') email: string): Promise<UserRO> {
     return await this.userService.findByEmail(email);
   }
 
-  @Put('user')
-  async update(
-    @User('id') userId: number,
-    @Body('user') userData: UpdateUserDto,
-  ) {
-    return await this.userService.update(userId, userData);
+  @Put('user/:userId')
+  @ApiOperation({ summary: 'update user by id' })
+  @ApiParam({ name: 'userId', description: 'id' })
+  async update(@Param() params, @Body() userData: UpdateUserDto) {
+    return await this.userService.update(params.userId, userData);
   }
 
   @UsePipes(new ValidationPipe())
   @Post('users')
   @ApiOperation({ summary: 'create user' })
-  async create(@Body() userData: CreateUserDto) {
+  async create(@Body('user') userData: CreateUserDto) {
     return this.userService.create(userData);
   }
 
-  @Delete('users/:slug')
+  @Delete('users/:email')
+  @ApiOperation({ summary: 'delete by email' })
+  @ApiParam({ name: 'email', description: 'email' })
   async delete(@Param() params) {
-    return await this.userService.delete(params.slug);
+    return await this.userService.delete(params.email);
   }
 
   @UsePipes(new ValidationPipe())
