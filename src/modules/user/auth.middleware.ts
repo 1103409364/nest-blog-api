@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { NestMiddleware, HttpStatus, Injectable } from '@nestjs/common';
 // import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request, Response, NextFunction } from 'express';
-import { SECRET } from '../../config/secret';
+import { SECRET } from '@/config/secret';
 import { UserService } from './user.service';
 import { UserData } from './user.interface';
 interface UserReq extends Request {

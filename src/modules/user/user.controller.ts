@@ -10,13 +10,20 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserRO } from './user.interface';
-import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
+import {
+  CreateUserRO,
+  CreateUserDto,
+  UpdateUserDto,
+  LoginUserDto,
+  LoginUserRO,
+} from './dto';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { User } from './user.decorator';
 import { ValidationPipe } from '../shared/pipes/validation.pipe';
@@ -43,6 +50,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post('users')
   @ApiOperation({ summary: 'create user' })
+  @ApiBody({ type: CreateUserRO })
   async create(@Body('user') userData: CreateUserDto) {
     return this.userService.create(userData);
   }
@@ -57,7 +65,8 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post('users/login')
   @ApiOperation({ summary: 'login' })
-  async login(@Body() loginUserDto: LoginUserDto) {
+  @ApiBody({ type: LoginUserRO })
+  async login(@Body('user') loginUserDto: LoginUserDto) {
     const _user = await this.userService.findOne(loginUserDto);
 
     const errors = { User: ' not found' };
