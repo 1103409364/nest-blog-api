@@ -24,6 +24,9 @@ export class ArticleService {
   ) {}
 
   async findAll(query): Promise<ArticlesRO> {
+    // const articles = this.articleRepository.find({
+    //   where: { ...query },
+    // });
     // TODO:
     const qb = await getRepository(ArticleEntity)
       .createQueryBuilder('article')
@@ -101,15 +104,13 @@ export class ArticleService {
     return { articles, articlesCount };
   }
 
-  async findOne(where): Promise<ArticleRO> {
-    const article = await this.articleRepository.findOne(where);
+  async findOne(slug): Promise<ArticleRO> {
+    const article = await this.articleRepository.findOne({ where: { slug } });
     return { article };
   }
 
   async addComment(slug: string, commentData): Promise<ArticleRO> {
-    let article = await this.articleRepository.findOne({
-      where: { slug },
-    });
+    let article = await this.articleRepository.findOne({ where: { slug } });
 
     const comment = new Comment();
     comment.body = commentData.body;
@@ -121,14 +122,10 @@ export class ArticleService {
     return { article };
   }
 
-  async deleteComment(slug: string, id: string): Promise<ArticleRO> {
-    let article = await this.articleRepository.findOne({
-      where: { slug },
-    });
+  async deleteComment(slug: string, id: number): Promise<ArticleRO> {
+    let article = await this.articleRepository.findOne({ where: { slug } });
 
-    const comment = await this.commentRepository.findOne({
-      where: { id: +id },
-    });
+    const comment = await this.commentRepository.findOne({ where: { id } });
     const deleteIndex = article.comments.findIndex(
       (_comment) => _comment.id === comment.id,
     );
@@ -144,9 +141,7 @@ export class ArticleService {
   }
 
   async favorite(id: number, slug: string): Promise<ArticleRO> {
-    let article = await this.articleRepository.findOne({
-      where: { slug },
-    });
+    let article = await this.articleRepository.findOne({ where: { slug } });
     const user = await this.userRepository.findOne({ where: { id } });
 
     const isNewFavorite =
@@ -163,9 +158,7 @@ export class ArticleService {
   }
 
   async unFavorite(id: number, slug: string): Promise<ArticleRO> {
-    let article = await this.articleRepository.findOne({
-      where: { slug },
-    });
+    let article = await this.articleRepository.findOne({ where: { slug } });
     const user = await this.userRepository.findOne({ where: { id } });
 
     const deleteIndex = user.favorites.findIndex(
@@ -184,9 +177,7 @@ export class ArticleService {
   }
 
   async findComments(slug: string): Promise<CommentsRO> {
-    const article = await this.articleRepository.findOne({
-      where: { slug },
-    });
+    const article = await this.articleRepository.findOne({ where: { slug } });
     return { comments: article.comments };
   }
 

@@ -1,4 +1,4 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Get, Post, Delete, Param, Controller } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { ProfileRO } from './profile.interface';
@@ -10,6 +10,7 @@ import { User } from '../user/user.decorator';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
+  @ApiOperation({ summary: 'Get profiles' })
   @Get(':username')
   async getProfile(
     @User('id') userId: number,
