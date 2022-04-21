@@ -33,6 +33,11 @@ export class ArticleController {
 
   @ApiOperation({ summary: 'Get all articles' })
   @ApiResponse({ status: 200, description: 'Return all articles.' })
+  @ApiQuery({ name: 'tag', required: false })
+  @ApiQuery({ name: 'author', required: false })
+  @ApiQuery({ name: 'favorite', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'offset', required: false })
   @Get()
   async findAll(@Query() query): Promise<ArticlesRO> {
     return await this.articleService.findAll(query);

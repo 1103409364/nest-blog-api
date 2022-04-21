@@ -1,13 +1,12 @@
 import slug from 'slug';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, getRepository, DeleteResult } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { Comment } from './comment.entity';
 import { UserEntity } from '../user/user.entity';
 import { FollowsEntity } from '../profile/follows.entity';
 import { CreateArticleDto } from './dto';
-
 import { ArticleRO, ArticlesRO, CommentsRO } from './article.interface';
 
 @Injectable()
@@ -24,11 +23,7 @@ export class ArticleService {
   ) {}
 
   async findAll(query): Promise<ArticlesRO> {
-    // const articles = this.articleRepository.find({
-    //   where: { ...query },
-    // });
-    // TODO:
-    const qb = await getRepository(ArticleEntity)
+    const qb = await this.articleRepository // getRepository(ArticleEntity) deprecated 废弃
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.author', 'author');
 
@@ -83,7 +78,7 @@ export class ArticleService {
 
     const ids = _follows.map((el) => el.followingId);
 
-    const qb = await getRepository(ArticleEntity)
+    const qb = await this.articleRepository
       .createQueryBuilder('article')
       .where('article.authorId IN (:ids)', { ids });
 
