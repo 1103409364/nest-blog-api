@@ -11,10 +11,11 @@ async function bootstrap() {
     .setTitle('NestJs RealWorld Example App')
     .setDescription('The RealWorld API')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
-  await app.listen(3000);
+  await app.listen(3080);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

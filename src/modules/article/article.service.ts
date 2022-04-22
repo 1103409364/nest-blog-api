@@ -1,4 +1,4 @@
-import slug from 'slug';
+import * as slug from 'slug';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
