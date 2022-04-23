@@ -27,8 +27,6 @@ export class ArticleService {
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.author', 'author');
 
-    qb.where('1 = 1');
-
     if ('tag' in query) {
       qb.andWhere('article.tagList LIKE :tag', { tag: `%${query.tag}%` });
     }
