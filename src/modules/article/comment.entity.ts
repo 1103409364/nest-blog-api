@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 
-@Entity()
-export class Comment {
+@Entity({ name: 'comment' })
+export class CommentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

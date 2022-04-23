@@ -8,9 +8,9 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
-import { Comment } from './comment.entity';
+import { CommentEntity } from './comment.entity';
 
-@Entity('article')
+@Entity({ name: 'article' })
 export class ArticleEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -44,9 +44,11 @@ export class ArticleEntity {
   @ManyToOne((type) => UserEntity, (user) => user.articles)
   author: UserEntity;
 
-  @OneToMany((type) => Comment, (comment) => comment.article, { eager: true })
+  @OneToMany((type) => CommentEntity, (comment) => comment.article, {
+    eager: true,
+  })
   @JoinColumn()
-  comments: Comment[];
+  comments: CommentEntity[];
 
   @Column({ default: 0 })
   favoriteCount: number;

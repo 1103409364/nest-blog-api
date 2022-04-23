@@ -7,7 +7,7 @@ import {
 import { ArticleController } from './article.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArticleEntity } from './article.entity';
-import { Comment } from './comment.entity';
+import { CommentEntity } from './comment.entity';
 import { UserEntity } from '../user/user.entity';
 import { FollowsEntity } from '../profile/follows.entity';
 import { ArticleService } from './article.service';
@@ -18,7 +18,7 @@ import { UserModule } from '../user/user.module';
   imports: [
     TypeOrmModule.forFeature([
       ArticleEntity,
-      Comment,
+      CommentEntity,
       UserEntity,
       FollowsEntity,
     ]),

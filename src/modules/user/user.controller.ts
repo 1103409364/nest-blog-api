@@ -8,13 +8,7 @@ import {
   Controller,
   UsePipes,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiParam,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { UserRO } from './user.interface';
 import {
@@ -23,6 +17,7 @@ import {
   UpdateUserDto,
   LoginUserDto,
   LoginUserRO,
+  UpdateUserRO,
 } from './dto';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { User } from './user.decorator';
@@ -35,37 +30,39 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('user')
-  @ApiOperation({ summary: 'find user by email' })
+  @ApiOperation({ summary: 'find me detail info' })
   async findMe(@User('email') email: string): Promise<UserRO> {
     return await this.userService.findByEmail(email);
   }
 
   @Put('user/:userId')
-  @ApiOperation({ summary: 'update user by id' })
-  @ApiParam({ name: 'userId', description: 'id' })
-  async update(@Param() params, @Body() userData: UpdateUserDto) {
-    return await this.userService.update(params.userId, userData);
+  @ApiOperation({ summary: 'update user by userId' })
+  @ApiBody({ type: UpdateUserRO })
+  async update(
+    @Param('userId') userId: number,
+    @Body('user') userData: UpdateUserDto,
+  ) {
+    return await this.userService.update(userId, userData);
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('users')
   @ApiOperation({ summary: 'create user' })
   @ApiBody({ type: CreateUserRO })
+  @Post('users')
   async create(@Body('user') userData: CreateUserDto) {
     return this.userService.create(userData);
   }
 
-  @Delete('users/:email')
-  @ApiOperation({ summary: 'delete by email' })
-  @ApiParam({ name: 'email', description: 'email' })
-  async delete(@Param() params) {
-    return await this.userService.delete(params.email);
+  @ApiOperation({ summary: 'delete article by slug' })
+  @Delete('users/:slug')
+  async delete(@Param('slug') slug: string, @User('id') id: number) {
+    return await this.userService.delete(slug, id);
   }
 
   @UsePipes(new ValidationPipe())
-  @Post('users/login')
   @ApiOperation({ summary: 'login' })
   @ApiBody({ type: LoginUserRO })
+  @Post('users/login')
   async login(@Body('user') loginUserDto: LoginUserDto) {
     const _user = await this.userService.findOne(loginUserDto);
 

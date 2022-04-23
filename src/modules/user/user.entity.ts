@@ -11,7 +11,7 @@ import * as argon2 from 'argon2';
 import { IsEmail } from 'class-validator';
 import { ArticleEntity } from '../article/article.entity';
 
-@Entity('user')
+@Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -36,7 +36,7 @@ export class UserEntity {
   async hashPassword() {
     this.password = await argon2.hash(this.password);
   }
-
+  // @ApiHideProperty()
   @ManyToMany((type) => ArticleEntity)
   @JoinTable()
   favorites: ArticleEntity[];

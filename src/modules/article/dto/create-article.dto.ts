@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateArticleDto {
@@ -11,14 +10,5 @@ export class CreateArticleDto {
 }
 export class CreateArticleRO {
   @IsNotEmpty()
-  @ApiProperty({
-    description: 'user',
-    example: {
-      title: 'realWorld',
-      description: 'realWorld',
-      body: 'realWorld',
-      tagList: ['realWorld'],
-    },
-  })
   readonly article: CreateArticleDto;
 }

@@ -2,20 +2,22 @@ import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { HttpException } from '@nestjs/common/exceptions/http.exception';
+import { HttpStatus } from '@nestjs/common';
 import { Repository, DeleteResult } from 'typeorm';
-import { UserEntity } from './user.entity';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { SECRET } from '@/config/secret';
 import { UserRO } from './user.interface';
 import { validate } from 'class-validator';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { HttpStatus } from '@nestjs/common';
-
+import { UserEntity } from './user.entity';
+import { ArticleEntity } from '../article/article.entity';
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(ArticleEntity)
+    private readonly articleRepository: Repository<ArticleEntity>,
   ) {}
 
   async findAll(): Promise<UserEntity[]> {
@@ -82,8 +84,23 @@ export class UserService {
     return await this.userRepository.save(updated);
   }
 
-  async delete(email: string): Promise<DeleteResult> {
-    return await this.userRepository.delete({ email: email });
+  async delete(slug: string, userId: number): Promise<DeleteResult> {
+    const article = await this.articleRepository.findOne({
+      where: { slug },
+      relations: ['author'],
+    });
+
+    if (!article) {
+      const errors = { Article: ' not found' };
+      throw new HttpException({ errors }, HttpStatus.NOT_FOUND);
+    }
+    if (article.author.id === userId) {
+      const deleteRes = await this.articleRepository.delete({ slug });
+      return { ...deleteRes, raw: article };
+    }
+
+    const errors = { article: 'delete Forbidden' };
+    throw new HttpException({ errors }, HttpStatus.FORBIDDEN);
   }
 
   async findById(id: number): Promise<UserRO> {
@@ -91,7 +108,7 @@ export class UserService {
 
     if (!user) {
       const errors = { User: ' not found' };
-      throw new HttpException({ errors }, 401);
+      throw new HttpException({ errors }, HttpStatus.UNAUTHORIZED);
     }
 
     return this.buildUserRO(user);

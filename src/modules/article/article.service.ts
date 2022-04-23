@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
 import { ArticleEntity } from './article.entity';
-import { Comment } from './comment.entity';
+import { CommentEntity } from './comment.entity';
 import { UserEntity } from '../user/user.entity';
 import { FollowsEntity } from '../profile/follows.entity';
 import { CreateArticleDto } from './dto';
@@ -14,8 +14,8 @@ export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
     private readonly articleRepository: Repository<ArticleEntity>,
-    @InjectRepository(Comment)
-    private readonly commentRepository: Repository<Comment>,
+    @InjectRepository(CommentEntity)
+    private readonly commentRepository: Repository<CommentEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(FollowsEntity)
@@ -105,7 +105,7 @@ export class ArticleService {
   async addComment(slug: string, commentData): Promise<ArticleRO> {
     let article = await this.articleRepository.findOne({ where: { slug } });
 
-    const comment = new Comment();
+    const comment = new CommentEntity();
     comment.body = commentData.body;
 
     article.comments.push(comment);
