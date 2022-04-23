@@ -6,7 +6,7 @@ export class CommentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 5000 })
   body: string;
 
   @ManyToOne((type) => ArticleEntity, (article) => article.comments)
