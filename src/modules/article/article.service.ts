@@ -2,10 +2,10 @@ import * as slug from 'slug';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
-import { ArticleEntity } from './article.entity';
-import { CommentEntity } from './comment.entity';
-import { UserEntity } from '../user/user.entity';
-import { FollowsEntity } from '../profile/follows.entity';
+import { ArticleEntity } from './entities/article.entity';
+import { CommentEntity } from './entities/comment.entity';
+import { UserEntity } from '../user/entities/user.entity';
+import { FollowsEntity } from '../profile/entities/follows.entity';
 import { CreateArticleDto } from './dto';
 import { ArticleRO, ArticlesRO, CommentsRO } from './article.interface';
 

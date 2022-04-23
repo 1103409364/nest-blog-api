@@ -1,5 +1,5 @@
 import { UserData } from '../user/user.interface';
-import { ArticleEntity } from './article.entity';
+import { ArticleEntity } from './entities/article.entity';
 interface Comment {
   body: string;
 }

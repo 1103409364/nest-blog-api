@@ -2,7 +2,7 @@ import { Test } from '@nestjs/testing';
 import { TagController } from './tag.controller';
 import { TagService } from './tag.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TagEntity } from './tag.entity';
+import { TagEntity } from './entities/tag.entity';
 
 describe('TagController', () => {
   let tagController: TagController;

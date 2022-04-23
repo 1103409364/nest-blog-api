@@ -7,7 +7,7 @@ import {
   JoinColumn,
   BeforeUpdate,
 } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 import { CommentEntity } from './comment.entity';
 
 @Entity({ name: 'article' })

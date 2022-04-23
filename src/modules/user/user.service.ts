@@ -9,8 +9,8 @@ import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { SECRET } from '@/config/secret';
 import { UserRO } from './user.interface';
 import { validate } from 'class-validator';
-import { UserEntity } from './user.entity';
-import { ArticleEntity } from '../article/article.entity';
+import { UserEntity } from './entities/user.entity';
+import { ArticleEntity } from '../article/entities/article.entity';
 @Injectable()
 export class UserService {
   constructor(

@@ -1,7 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateArticleDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '标题不能为空' })
   readonly title: string;
   readonly description: string;
   @IsNotEmpty()
