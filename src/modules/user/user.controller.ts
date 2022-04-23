@@ -21,7 +21,6 @@ import {
 } from './dto';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { User } from './user.decorator';
-import { ValidationPipe } from '../shared/pipes/validation.pipe';
 
 @ApiBearerAuth()
 @ApiTags('user')
@@ -45,7 +44,6 @@ export class UserController {
     return await this.userService.update(userId, userData);
   }
 
-  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'create user' })
   @ApiBody({ type: CreateUserRO })
   @Post('users')
@@ -59,7 +57,6 @@ export class UserController {
     return await this.userService.delete(slug, id);
   }
 
-  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'login' })
   @ApiBody({ type: LoginUserRO })
   @Post('users/login')

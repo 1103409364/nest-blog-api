@@ -21,6 +21,7 @@ export class ValidationPipe implements PipeTransform<any> {
       return value;
     }
     const object = plainToClass(metatype, value);
+    // 请求参数校验
     const errors = await validate(object);
     if (errors.length > 0) {
       throw new HttpException(

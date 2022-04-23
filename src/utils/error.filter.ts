@@ -33,10 +33,7 @@ export class ErrorFilter implements ExceptionFilter {
       path: request.url,
       message: error.message,
     };
-    const message = (error as any)?.response?.message;
-    const errors = (error as any)?.response?.errors;
-    // const _errors = (error as any)?.response?._errors;
-    errorResponse.errors = [message, errors].flat().filter(Boolean);
+    errorResponse.errors = (error as any)?.response?.errors;
     // 未知异常返回 stack
     if (statusCode === HttpStatus.INTERNAL_SERVER_ERROR) {
       errorResponse.stack = error.stack;

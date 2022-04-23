@@ -8,7 +8,6 @@ import { Repository, DeleteResult } from 'typeorm';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { SECRET } from '@/config/secret';
 import { UserRO } from './user.interface';
-import { validate } from 'class-validator';
 import { UserEntity } from './entities/user.entity';
 import { ArticleEntity } from '../article/entities/article.entity';
 @Injectable()
@@ -58,26 +57,15 @@ export class UserService {
     newUser.email = email;
     newUser.password = password;
     // newUser.articles = [];
-
-    const errors = await validate(newUser);
-    if (errors.length > 0) {
-      throw new HttpException(
-        { message: 'Input data validation failed', errors },
-        HttpStatus.BAD_REQUEST,
-      );
-    } else {
-      const savedUser = await this.userRepository.save(newUser);
-      return this.buildUserRO(savedUser);
-    }
+    const savedUser = await this.userRepository.save(newUser);
+    return this.buildUserRO(savedUser);
   }
 
   async update(id: number, dto: UpdateUserDto): Promise<UserEntity> {
-    const toUpdate = await this.userRepository.findOne({ where: { id } });
-
+    // check uniqueness of username/email
     const user = await this.userRepository.findOne({
       where: [{ username: dto.username }, { email: dto.email }],
     });
-
     if (user && user.id !== id) {
       const errors = { username: 'Username and email must be unique.' };
       throw new HttpException(
@@ -86,6 +74,7 @@ export class UserService {
       );
     }
 
+    const toUpdate = await this.userRepository.findOne({ where: { id } });
     if (!toUpdate) {
       const errors = { User: ' not found' };
       throw new HttpException({ errors }, HttpStatus.NOT_FOUND);
@@ -94,15 +83,7 @@ export class UserService {
     delete toUpdate.password;
     // delete toUpdate.favorites;
     const updated = Object.assign(toUpdate, dto);
-    const errors = await validate(updated);
-    if (errors.length > 0) {
-      throw new HttpException(
-        { message: 'Input data validation failed', errors },
-        HttpStatus.BAD_REQUEST,
-      );
-    } else {
-      return await this.userRepository.save(updated);
-    }
+    return await this.userRepository.save(updated);
   }
 
   async delete(slug: string, userId: number): Promise<DeleteResult> {

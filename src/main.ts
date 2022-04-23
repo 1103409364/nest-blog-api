@@ -1,14 +1,15 @@
-import { ValidationPipe } from '@nestjs/common';
+// import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ValidationPipe } from './utils/validation.pipe';
 import { ErrorFilter } from './utils/error.filter';
 
 async function bootstrap() {
   const appOptions = { cors: true };
   const app = await NestFactory.create(AppModule, appOptions);
-  app.useGlobalFilters(new ErrorFilter());
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new ErrorFilter());
   const options = new DocumentBuilder()
     .setTitle('NestJs RealWorld Example App')
     .setDescription('The RealWorld API')

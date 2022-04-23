@@ -35,14 +35,14 @@ export class ArticleService {
       const author = await this.userRepository.findOne({
         where: { username: query.author },
       });
-      qb.andWhere('article.authorId = :id', { id: author.id });
+      qb.andWhere('article.authorId = :id', { id: author?.id });
     }
 
     if ('favorite' in query) {
       const author = await this.userRepository.findOne({
         where: { username: query.favorite },
       });
-      const ids = author.favorites.map((el) => el.id);
+      const ids = author?.favorites?.map((el) => el.id);
       qb.andWhere('article.authorId IN (:ids)', { ids });
     }
 

@@ -19,8 +19,8 @@ export class UserEntity {
   @Column()
   username: string;
 
-  @Column()
   @IsEmail()
+  @Column()
   email: string;
 
   @Column({ default: '' })
