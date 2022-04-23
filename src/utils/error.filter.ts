@@ -13,7 +13,7 @@ interface ErrorResponse {
   path: string;
   message: string;
   stack?: string;
-  errors?: Record<string, string>;
+  errors?: Array<Record<string, string>>;
 }
 
 @Catch() //装饰器传 HttpException 只处理 http 异常，不传可以处理所有异常
@@ -33,8 +33,10 @@ export class ErrorFilter implements ExceptionFilter {
       path: request.url,
       message: error.message,
     };
-    const errResponse = (error as any)?.response;
-    errorResponse.errors = errResponse?.errors || errResponse?._errors;
+    const message = (error as any)?.response?.message;
+    const errors = (error as any)?.response?.errors;
+    // const _errors = (error as any)?.response?._errors;
+    errorResponse.errors = [message, errors].flat().filter(Boolean);
     // 未知异常返回 stack
     if (statusCode === HttpStatus.INTERNAL_SERVER_ERROR) {
       errorResponse.stack = error.stack;
