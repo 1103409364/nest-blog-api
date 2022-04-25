@@ -1,7 +1,7 @@
 // config/configuration.ts
 import { join } from 'path';
 
-export default () => ({
+export const configuration = () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
     host: process.env.DATABASE_HOST || 'localhost',
@@ -13,6 +13,6 @@ export default () => ({
     database: process.env.DATABASE_DATABASE,
     entities: [join(__dirname, '../', '**/**.entity{.ts,.js}')],
     synchronize: true, // 同步数据库，自动建表、更新表等
-    logging: process.env.NODE_ENV === 'dev', // 是否打印日志
+    logging: false, //process.env.NODE_ENV === 'dev', // 是否打印日志
   },
 });
