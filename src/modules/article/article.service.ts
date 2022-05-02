@@ -233,9 +233,9 @@ export class ArticleService {
     article.body = articleData.body;
     article.description = articleData.description;
     article.slug = this.slugify(articleData.title);
-    const tags = articleData.tagList.map((el) => {
+    const tags = articleData.tags.map((el) => {
       const tag = new TagEntity();
-      tag.tag = el;
+      tag.tag = el.tag;
       return tag;
     });
     // 一次保存多个实体

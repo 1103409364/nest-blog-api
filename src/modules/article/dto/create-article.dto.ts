@@ -1,3 +1,4 @@
+import { TagEntity } from '@/modules/tag/entities/tag.entity';
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateArticleDto {
@@ -6,7 +7,7 @@ export class CreateArticleDto {
   readonly description: string;
   @IsNotEmpty()
   readonly body: string;
-  readonly tagList: string[];
+  readonly tags: TagEntity[];
 }
 export class CreateArticleRO {
   @IsNotEmpty()
