@@ -126,9 +126,10 @@ export class ArticleController {
   @Post(':slug/comments')
   async createComment(
     @Param('slug') slug: string,
-    @Body('comment') commentData: CreateCommentDto,
+    @Body('comment') createCommentDto: CreateCommentDto,
+    @User('id') userId: number,
   ) {
-    return await this.articleService.addComment(slug, commentData);
+    return await this.articleService.addComment(slug, createCommentDto, userId);
   }
 
   @ApiOperation({ summary: 'Delete comment' })

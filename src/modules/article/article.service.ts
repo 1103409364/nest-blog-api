@@ -116,17 +116,18 @@ export class ArticleService {
     return { article };
   }
 
-  async addComment(slug: string, commentData): Promise<ArticleRO> {
+  async addComment(slug: string, commentData, userId) {
     let article = await this.articleRepository.findOne({ where: { slug } });
-
     const comment = new CommentEntity();
     comment.body = commentData.body;
-
+    comment.slug = slug;
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    comment.author = user;
     article.comments.push(comment);
 
-    await this.commentRepository.save(comment);
+    const res = await this.commentRepository.save(comment);
     article = await this.articleRepository.save(article);
-    return { article };
+    return { res };
   }
 
   async deleteComment(slug: string, id: number): Promise<ArticleRO> {
@@ -197,8 +198,11 @@ export class ArticleService {
   }
 
   async findComments(slug: string): Promise<CommentsRO> {
-    const article = await this.articleRepository.findOne({ where: { slug } });
-    return { comments: article.comments };
+    const comments = await this.commentRepository.find({
+      where: { slug },
+      relations: ['author'],
+    });
+    return { comments };
   }
 
   async create(

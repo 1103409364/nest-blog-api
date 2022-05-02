@@ -1,7 +1,8 @@
-import { UserData } from '../user/user.interface';
+import { UserEntity } from '@/modules/user/entities/user.entity';
 import { ArticleEntity } from './entities/article.entity';
-interface Comment {
-  body: string;
+import { CommentEntity } from './entities/comment.entity';
+export interface CommentData extends CommentEntity {
+  author: UserEntity;
 }
 
 export interface ArticleData extends ArticleEntity {
@@ -18,7 +19,7 @@ export interface ArticleData extends ArticleEntity {
 }
 
 export interface CommentsRO {
-  comments: Comment[];
+  comments: CommentData[];
 }
 
 export interface ArticleRO {
