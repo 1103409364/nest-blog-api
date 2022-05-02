@@ -240,7 +240,14 @@ export class ArticleService {
   }
 
   async update(slug: string, articleData: any): Promise<ArticleRO> {
-    const toUpdate = await this.articleRepository.findOne({ where: { slug } });
+    const toUpdate = await this.articleRepository.findOne({
+      where: { slug },
+      relations: ['tags'],
+    });
+    const oldTags = await this.tagRepository.find();
+    const oldTagsIds = oldTags.map((el) => el.id);
+    const newTags = articleData.tags.filter((el) => !oldTagsIds.includes(el));
+    await this.tagRepository.save(newTags);
     const updated = Object.assign(toUpdate, articleData);
     const article = await this.articleRepository.save(updated);
     return { article };
