@@ -8,6 +8,7 @@ import { ErrorFilter } from './utils/error.filter';
 async function bootstrap() {
   const appOptions = { cors: true };
   const app = await NestFactory.create(AppModule, appOptions);
+  app.setGlobalPrefix(process.env.API_PREFIX);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new ErrorFilter());
   const options = new DocumentBuilder()
@@ -20,9 +21,9 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
   await app.listen(process.env.PORT);
   console.log(
-    `Application is running on: ${await app.getUrl()} NODE_ENV = ${
-      process.env.NODE_ENV
-    }`,
+    `Application is running on: ${await app.getUrl()}/${
+      process.env.API_PREFIX
+    } NODE_ENV = ${process.env.NODE_ENV}`,
   );
 }
 bootstrap();
