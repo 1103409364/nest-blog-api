@@ -35,7 +35,11 @@ export class ArticleService {
       .leftJoinAndSelect('article.author', 'author');
 
     if ('tag' in query) {
-      qb.andWhere('article.tagList LIKE :tag', { tag: `%${query.tag}%` });
+      // qb.andWhere('article.tags LIKE :tag', { tag: `%${query.tag}%` });
+      // 联查 tag 表，查询 tag 字段中包含 query.tag 的文章，'article.tags'关联关系, 'tag' 别名
+      qb.leftJoinAndSelect('article.tags', 'tag').where('tag.tag = :tag', {
+        tag: query.tag,
+      });
     }
 
     if ('author' in query) {
