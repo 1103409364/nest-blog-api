@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { ArticleModule } from './modules/article/article.module';
 import { ProfileModule } from './modules/profile/profile.module';
@@ -19,6 +21,9 @@ import { configuration } from './config/configuration';
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => config.get('database'),
       inject: [ConfigService],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
     }),
     UserModule,
     ArticleModule,

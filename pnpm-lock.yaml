@@ -7,6 +7,7 @@ specifiers:
   '@nestjs/core': ^8.4.4
   '@nestjs/platform-express': ^8.4.4
   '@nestjs/schematics': ^8.0.10
+  '@nestjs/serve-static': ^2.2.2
   '@nestjs/swagger': ^5.2.1
   '@nestjs/testing': ^8.4.4
   '@nestjs/typeorm': ^8.0.3
@@ -25,7 +26,6 @@ specifiers:
   jest: ^27.5.1
   jsonwebtoken: ^8.5.1
   mysql2: ^2.3.3
-  nestjs-config: ^1.4.10
   passport-jwt: ^4.0.0
   prettier: ^2.6.2
   reflect-metadata: ^0.1.13
@@ -47,6 +47,7 @@ dependencies:
   '@nestjs/config': 2.0.0_7670df531e7a1503cdbe395599f41db7
   '@nestjs/core': 8.4.4_b63c269346792a9d57cfab86d23050d2
   '@nestjs/platform-express': 8.4.4_a78378ec5f3cecc3c353ed91b578f3e6
+  '@nestjs/serve-static': 2.2.2_a78378ec5f3cecc3c353ed91b578f3e6
   '@nestjs/swagger': 5.2.1_0d02518704b9480274bb3a5bf7280c33
   '@nestjs/typeorm': 8.0.3_97945d5ae085fe2f98e0791ef8c1d768
   argon2: 0.28.5
@@ -54,7 +55,6 @@ dependencies:
   class-validator: 0.13.2
   jsonwebtoken: 8.5.1
   mysql2: 2.3.3
-  nestjs-config: 1.4.10_@nestjs+common@8.4.4
   passport-jwt: 4.0.0
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
@@ -947,6 +947,17 @@ packages:
       - chokidar
     dev: true
 
+  /@nestjs/serve-static/2.2.2_a78378ec5f3cecc3c353ed91b578f3e6:
+    resolution: {integrity: sha512-3Mr+Q/npS3N7iGoF3Wd6Lj9QcjMGxbNrSqupi5cviM0IKrZ1BHl5qekW95rWYNATAVqoTmjGROAq+nKKpuUagQ==}
+    peerDependencies:
+      '@nestjs/common': ^6.0.0 || ^7.0.0 || ^8.0.0
+      '@nestjs/core': ^6.0.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      '@nestjs/common': 8.4.4_5199533202e21c7185c9d97f881e2827
+      '@nestjs/core': 8.4.4_b63c269346792a9d57cfab86d23050d2
+      path-to-regexp: 0.1.7
+    dev: false
+
   /@nestjs/swagger/5.2.1_0d02518704b9480274bb3a5bf7280c33:
     resolution: {integrity: sha512-7dNa08WCnTsW/oAk3Ujde+z64JMfNm19DhpXasFR8oJp/9pggYAbYU927HpA+GJsSFJX6adjIRZsCKUqaGWznw==}
     peerDependencies:
@@ -1209,6 +1220,7 @@ packages:
 
   /@types/node/16.11.26:
     resolution: {integrity: sha512-GZ7bu5A6+4DtG7q9GsoHXy3ALcgeIHP4NnL0Vv2wu0uUB/yQex26v0tf6/na1mm0+bS9Uw+0DFex7aaKr2qawQ==}
+    dev: true
 
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
@@ -2387,11 +2399,6 @@ packages:
   /dotenv-expand/8.0.2:
     resolution: {integrity: sha512-vKKAk+VOzAWOV/dPIeSYqhgC/TQY+6L6Ibkzfsr8xd1stdBsTuGu9asCOXgbYbBeS+f2Y6lqqEuw7riOA+xEUQ==}
     engines: {node: '>=12'}
-    dev: false
-
-  /dotenv/10.0.0:
-    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
-    engines: {node: '>=10'}
     dev: false
 
   /dotenv/16.0.0:
@@ -4037,10 +4044,6 @@ packages:
       p-locate: 4.1.0
     dev: true
 
-  /lodash.get/4.4.2:
-    resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
-    dev: false
-
   /lodash.includes/4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
     dev: false
@@ -4075,10 +4078,6 @@ packages:
 
   /lodash.once/4.1.1:
     resolution: {integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==}
-    dev: false
-
-  /lodash.set/4.3.2:
-    resolution: {integrity: sha512-4hNPN5jlm/N/HLMCO43v8BXKq9Z7QdAGc/VGrRD61w8gN9g/6jF9A4L1pbUgBLCffi0w9VsXfTOij5x8iTyFvg==}
     dev: false
 
   /lodash/4.17.21:
@@ -4306,21 +4305,6 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
-
-  /nestjs-config/1.4.10_@nestjs+common@8.4.4:
-    resolution: {integrity: sha512-el7iGCOsIVN5htafFVJMt8PNZ/We3cwg9iBuAkwW0aXW9ysKfAScgeeC60zljpQ16eBY6ODlB1w173Gdy8kzgA==}
-    peerDependencies:
-      '@nestjs/common': ^5.1.0 || ^6.0.3 || ^7.0.1 || ^8.0.0
-    dependencies:
-      '@nestjs/common': 8.4.4_5199533202e21c7185c9d97f881e2827
-      '@types/node': 16.11.26
-      dotenv: 10.0.0
-      glob: 7.2.0
-      lodash.get: 4.4.2
-      lodash.set: 4.3.2
-      reflect-metadata: 0.1.13
-      rxjs: 6.6.7
-    dev: false
 
   /node-addon-api/4.3.0:
     resolution: {integrity: sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==}
@@ -4857,6 +4841,7 @@ packages:
     engines: {npm: '>=2.0.0'}
     dependencies:
       tslib: 1.14.1
+    dev: true
 
   /rxjs/7.5.5:
     resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
@@ -5452,6 +5437,7 @@ packages:
 
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: true
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
