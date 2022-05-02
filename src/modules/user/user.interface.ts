@@ -4,6 +4,7 @@ export interface UserData {
   token: string;
   bio: string;
   image?: string;
+  following?: boolean;
 }
 
 export interface UserRO {

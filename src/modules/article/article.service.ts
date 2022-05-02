@@ -108,12 +108,25 @@ export class ArticleService {
 
     return { articles, articlesCount };
   }
-
-  async findOne(slug): Promise<ArticleRO> {
-    const article = await this.articleRepository.findOne({
+  /**
+   * 文章详情
+   * @param slug
+   * @param followerId 当前用户 userId
+   * @returns
+   */
+  async findOne(slug, followerId): Promise<ArticleRO> {
+    const article: ArticleData = await this.articleRepository.findOne({
       where: { slug },
       relations: ['author'],
     });
+    // 当前用户关注的用户id followingId
+    const users = await this.followsRepository.find({
+      where: { followerId },
+    });
+
+    const userIds = users.map((el) => el.followingId);
+    article.author.following = userIds && userIds.includes(article.author.id);
+
     return { article };
   }
 

@@ -63,8 +63,11 @@ export class ArticleController {
   // 参数 slug 写上类型注解，可以省略 ApiParam 装饰器，swagger 会自动推断
   // @ApiParam({ name: 'slug', description: 'article slug', required: true })
   @Get(':slug')
-  async findOne(@Param('slug') slug: string): Promise<ArticleRO> {
-    return await this.articleService.findOne(slug);
+  async findOne(
+    @Param('slug') slug: string,
+    @User('id') userId: number,
+  ): Promise<ArticleRO> {
+    return await this.articleService.findOne(slug, userId);
   }
 
   @ApiOperation({ summary: 'Get article comments' })
