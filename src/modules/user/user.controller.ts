@@ -34,11 +34,11 @@ export class UserController {
     return await this.userService.findByEmail(email);
   }
 
-  @Put('user/:userId')
+  @Put('user')
   @ApiOperation({ summary: 'update user by userId' })
   @ApiBody({ type: UpdateUserRO })
   async update(
-    @Param('userId') userId: number,
+    @User('id') userId: number,
     @Body('user') userData: UpdateUserDto,
   ) {
     return await this.userService.update(userId, userData);

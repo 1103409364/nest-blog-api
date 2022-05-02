@@ -24,7 +24,10 @@ export class UserService {
   }
 
   async findOne({ email, password }: LoginUserDto): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: ['password', 'id', 'username', 'email', 'bio', 'image'],
+    });
     if (!user) {
       return null;
     }
