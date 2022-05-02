@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
 import { ArticleEntity } from './entities/article.entity';
 import { CommentEntity } from './entities/comment.entity';
+import { TagEntity } from '../tag/entities/tag.entity';
 import { UserEntity } from '../user/entities/user.entity';
 import { FollowsEntity } from '../profile/entities/follows.entity';
 import { CreateArticleDto } from './dto';
@@ -13,7 +14,6 @@ import {
   CommentsRO,
   ArticleData,
 } from './article.interface';
-
 @Injectable()
 export class ArticleService {
   constructor(
@@ -21,6 +21,8 @@ export class ArticleService {
     private readonly articleRepository: Repository<ArticleEntity>,
     @InjectRepository(CommentEntity)
     private readonly commentRepository: Repository<CommentEntity>,
+    @InjectRepository(TagEntity)
+    private readonly tagRepository: Repository<TagEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(FollowsEntity)
@@ -73,12 +75,10 @@ export class ArticleService {
     articles.forEach((el) => (el.favorite = favoriteIds.includes(el.id)));
     return { articles, articlesCount };
   }
-
+  // 获取我关注的人的文章
   async findFeed(userId: number, query): Promise<ArticlesRO> {
     const _follows = await this.followsRepository.find({
-      where: {
-        followerId: userId,
-      },
+      where: { followerId: userId },
     });
 
     if (!(Array.isArray(_follows) && _follows.length > 0)) {
@@ -89,6 +89,7 @@ export class ArticleService {
 
     const qb = await this.articleRepository
       .createQueryBuilder('article')
+      .leftJoinAndSelect('article.author', 'author') // 关联查询
       .where('article.authorId IN (:ids)', { ids });
 
     qb.orderBy('article.created', 'DESC');
@@ -103,7 +104,7 @@ export class ArticleService {
       qb.offset(query.offset);
     }
 
-    const articles = await qb.getMany();
+    const articles = await qb.printSql().getMany();
 
     return { articles, articlesCount };
   }
@@ -127,7 +128,7 @@ export class ArticleService {
 
     const res = await this.commentRepository.save(comment);
     article = await this.articleRepository.save(article);
-    return { res };
+    return { comment: res };
   }
 
   async deleteComment(slug: string, id: number): Promise<ArticleRO> {
@@ -201,6 +202,7 @@ export class ArticleService {
     const comments = await this.commentRepository.find({
       where: { slug },
       relations: ['author'],
+      order: { created: 'DESC' },
     });
     return { comments };
   }
@@ -214,7 +216,14 @@ export class ArticleService {
     article.body = articleData.body;
     article.description = articleData.description;
     article.slug = this.slugify(articleData.title);
-    article.tagList = articleData.tagList || [];
+    const tags = articleData.tagList.map((el) => {
+      const tag = new TagEntity();
+      tag.tag = el;
+      return tag;
+    });
+    // 一次保存多个实体
+    await this.tagRepository.save(tags);
+    article.tags = tags;
     article.comments = [];
 
     const newArticle = await this.articleRepository.save(article);

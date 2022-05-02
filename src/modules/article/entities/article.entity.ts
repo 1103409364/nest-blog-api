@@ -1,3 +1,4 @@
+import { TagEntity } from '@/modules/tag/entities/tag.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -38,9 +39,6 @@ export class ArticleEntity {
     this.updated = new Date();
   }
 
-  @Column('simple-array')
-  tagList: string[];
-
   @ManyToOne((type) => UserEntity, (user) => user.articles)
   author: UserEntity;
 
@@ -49,6 +47,12 @@ export class ArticleEntity {
   })
   @JoinColumn()
   comments: CommentEntity[];
+
+  @OneToMany((type) => TagEntity, (tag) => tag.article, {
+    eager: true,
+  })
+  @JoinColumn()
+  tags: TagEntity[];
 
   @Column({ default: 0 })
   favoritesCount: number;

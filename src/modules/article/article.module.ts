@@ -13,12 +13,14 @@ import { FollowsEntity } from '../profile/entities/follows.entity';
 import { ArticleService } from './article.service';
 import { AuthMiddleware } from '../user/auth.middleware';
 import { UserModule } from '../user/user.module';
+import { TagEntity } from '../tag/entities/tag.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       ArticleEntity,
       CommentEntity,
+      TagEntity,
       UserEntity,
       FollowsEntity,
     ]),
