@@ -51,5 +51,5 @@ export class ArticleEntity {
   comments: CommentEntity[];
 
   @Column({ default: 0 })
-  favoriteCount: number;
+  favoritesCount: number;
 }

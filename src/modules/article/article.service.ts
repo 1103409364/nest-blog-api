@@ -7,7 +7,12 @@ import { CommentEntity } from './entities/comment.entity';
 import { UserEntity } from '../user/entities/user.entity';
 import { FollowsEntity } from '../profile/entities/follows.entity';
 import { CreateArticleDto } from './dto';
-import { ArticleRO, ArticlesRO, CommentsRO } from './article.interface';
+import {
+  ArticleRO,
+  ArticlesRO,
+  CommentsRO,
+  ArticleData,
+} from './article.interface';
 
 @Injectable()
 export class ArticleService {
@@ -22,7 +27,7 @@ export class ArticleService {
     private readonly followsRepository: Repository<FollowsEntity>,
   ) {}
 
-  async findAll(query): Promise<ArticlesRO> {
+  async findAll(query, userId): Promise<ArticlesRO> {
     const qb = await this.articleRepository // getRepository(ArticleEntity) deprecated 废弃
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.author', 'author');
@@ -58,8 +63,14 @@ export class ArticleService {
       qb.offset(query.offset);
     }
 
-    const articles = await qb.getMany();
+    const articles: ArticleData[] = await qb.getMany();
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
 
+    const favoriteIds = user.favorites.map((el) => el.id);
+    articles.forEach((el) => (el.favorite = favoriteIds.includes(el.id)));
     return { articles, articlesCount };
   }
 
@@ -98,7 +109,10 @@ export class ArticleService {
   }
 
   async findOne(slug): Promise<ArticleRO> {
-    const article = await this.articleRepository.findOne({ where: { slug } });
+    const article = await this.articleRepository.findOne({
+      where: { slug },
+      relations: ['author'],
+    });
     return { article };
   }
 
@@ -134,25 +148,37 @@ export class ArticleService {
   }
 
   async favorite(id: number, slug: string): Promise<ArticleRO> {
-    let article = await this.articleRepository.findOne({ where: { slug } });
-    const user = await this.userRepository.findOne({ where: { id } });
+    let article: ArticleData = await this.articleRepository.findOne({
+      where: { slug },
+      relations: ['author'],
+    });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['favorites'],
+    });
 
     const isNewFavorite =
       user.favorites.findIndex((_article) => _article.id === article.id) < 0;
     if (isNewFavorite) {
       user.favorites.push(article);
-      article.favoriteCount++;
+      article.favoritesCount++;
 
       await this.userRepository.save(user);
       article = await this.articleRepository.save(article);
     }
-
+    article.favorite = true;
     return { article };
   }
 
   async unFavorite(id: number, slug: string): Promise<ArticleRO> {
-    let article = await this.articleRepository.findOne({ where: { slug } });
-    const user = await this.userRepository.findOne({ where: { id } });
+    let article: ArticleData = await this.articleRepository.findOne({
+      where: { slug },
+      relations: ['author'],
+    });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['favorites'],
+    });
 
     const deleteIndex = user.favorites.findIndex(
       (_article) => _article.id === article.id,
@@ -160,10 +186,11 @@ export class ArticleService {
 
     if (deleteIndex >= 0) {
       user.favorites.splice(deleteIndex, 1);
-      article.favoriteCount--;
+      article.favoritesCount--;
 
       await this.userRepository.save(user);
       article = await this.articleRepository.save(article);
+      article.favorite = false;
     }
 
     return { article };

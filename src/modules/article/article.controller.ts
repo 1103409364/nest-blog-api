@@ -39,12 +39,15 @@ export class ArticleController {
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'offset', required: false })
   @Get()
-  async findAll(@Query() query): Promise<ArticlesRO> {
-    return await this.articleService.findAll(query);
+  async findAll(
+    @Query() query,
+    @User('id') userId: number,
+  ): Promise<ArticlesRO> {
+    return await this.articleService.findAll(query, userId);
   }
 
-  @ApiOperation({ summary: 'Get article feed' })
-  @ApiResponse({ status: 200, description: 'Return article feed.' })
+  @ApiOperation({ summary: 'Get you feed' })
+  @ApiResponse({ status: 200, description: 'Return articles.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiQuery({ name: 'offset', description: 'offset', required: false })
   @ApiQuery({ name: 'limit', description: 'limit', required: false })

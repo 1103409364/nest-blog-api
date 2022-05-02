@@ -4,17 +4,17 @@ interface Comment {
   body: string;
 }
 
-interface ArticleData {
-  slug: string;
-  title: string;
-  description: string;
-  body?: string;
-  tagList?: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
+export interface ArticleData extends ArticleEntity {
+  // slug: string;
+  // title: string;
+  // description: string;
+  // body?: string;
+  // tagList?: string[];
+  // createdAt?: Date;
+  // updatedAt?: Date;
   favorite?: boolean;
-  favoritesCount?: number;
-  author?: UserData;
+  // favoritesCount?: number;
+  // author?: UserData;
 }
 
 export interface CommentsRO {
