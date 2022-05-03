@@ -6,7 +6,7 @@ import {
   Delete,
   Param,
   Controller,
-  UsePipes,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -64,7 +64,7 @@ export class UserController {
     const _user = await this.userService.findOne(loginUserDto);
 
     const errors = { User: ' not found' };
-    if (!_user) throw new HttpException({ errors }, 401);
+    if (!_user) throw new HttpException({ errors }, HttpStatus.UNAUTHORIZED);
 
     const token = await this.userService.generateJWT(_user);
     const { email, username, bio, image } = _user;

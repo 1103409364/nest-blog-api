@@ -14,6 +14,9 @@ export class CreateUserDto {
   @ApiProperty({ example: '123212' })
   @IsNotEmpty()
   readonly password: string;
+
+  readonly bio?: string;
+  readonly image?: string;
 }
 // Request Object
 export class CreateUserRO {

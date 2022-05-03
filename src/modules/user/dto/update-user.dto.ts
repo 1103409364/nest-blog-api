@@ -1,12 +1,6 @@
-import { IsEmail } from 'class-validator';
-
-export class UpdateUserDto {
-  readonly username: string;
-  @IsEmail()
-  readonly email: string;
-  readonly bio: string;
-  readonly image: string;
-}
+import { PartialType } from '@nestjs/swagger';
+import { CreateUserDto } from './create-user.dto';
+export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
 export class UpdateUserRO {
   readonly user: UpdateUserDto;

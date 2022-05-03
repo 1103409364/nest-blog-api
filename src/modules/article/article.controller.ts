@@ -8,12 +8,6 @@ import {
   Param,
   Controller,
 } from '@nestjs/common';
-import { ArticleService } from './article.service';
-import { CreateArticleDto, CreateCommentDto, CreateCommentRO } from './dto';
-import { ArticlesRO, ArticleRO } from './article.interface';
-import { CommentsRO } from './article.interface';
-import { User } from '../user/user.decorator';
-
 import {
   ApiBearerAuth,
   ApiResponse,
@@ -23,7 +17,13 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
+import { ArticleService } from './article.service';
+import { User } from '../user/user.decorator';
+import { CreateArticleDto, CreateCommentDto, CreateCommentRO } from './dto';
+import { ArticlesRO, ArticleRO } from './article.interface';
+import { CommentsRO } from './article.interface';
 import { CreateArticleRO } from './dto/create-article.dto';
+import { UpdateArticleDto, UpdateArticleRO } from './dto/update-article.dto';
 
 @ApiBearerAuth()
 @ApiTags('articles')
@@ -96,12 +96,12 @@ export class ArticleController {
     status: 201,
     description: 'The article has been successfully updated.',
   })
-  @ApiBody({ type: CreateArticleRO })
+  @ApiBody({ type: UpdateArticleRO })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':slug')
   async update(
     @Param('slug') slug: string,
-    @Body('article') articleData: CreateArticleDto,
+    @Body('article') articleData: UpdateArticleDto,
   ) {
     // Todo: update slug also when title gets changed
     return this.articleService.update(slug, articleData);
