@@ -1,7 +1,7 @@
 // import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { WinstonModule, WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
 import { ValidationPipe } from './utils/validation.pipe';
 import { ErrorFilter } from './utils/error.filter';
