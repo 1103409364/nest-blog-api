@@ -7,10 +7,10 @@ import {
   Param,
   Controller,
   HttpStatus,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserService } from './user.service';
-import { UserRO } from './user.interface';
+} from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { UserService } from "./user.service";
+import { UserRO } from "./user.interface";
 import {
   CreateUserRO,
   CreateUserDto,
@@ -18,52 +18,52 @@ import {
   LoginUserDto,
   LoginUserRO,
   UpdateUserRO,
-} from './dto';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { User } from './user.decorator';
+} from "./dto";
+import { HttpException } from "@nestjs/common/exceptions/http.exception";
+import { User } from "./user.decorator";
 
 @ApiBearerAuth()
-@ApiTags('user')
+@ApiTags("user")
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('user')
-  @ApiOperation({ summary: 'find me detail info' })
-  async findMe(@User('email') email: string): Promise<UserRO> {
+  @Get("user")
+  @ApiOperation({ summary: "find me detail info" })
+  async findMe(@User("email") email: string): Promise<UserRO> {
     return await this.userService.findByEmail(email);
   }
 
-  @Put('user')
-  @ApiOperation({ summary: 'update user by userId' })
+  @Put("user")
+  @ApiOperation({ summary: "update user by userId" })
   @ApiBody({ type: UpdateUserRO })
   async update(
-    @User('id') userId: number,
-    @Body('user') userData: UpdateUserDto,
+    @User("id") userId: number,
+    @Body("user") userData: UpdateUserDto,
   ) {
     return await this.userService.update(userId, userData);
   }
 
-  @ApiOperation({ summary: 'create user' })
+  @ApiOperation({ summary: "create user" })
   @ApiBody({ type: CreateUserRO })
-  @Post('users')
-  async create(@Body('user') userData: CreateUserDto) {
+  @Post("users")
+  async create(@Body("user") userData: CreateUserDto) {
     return this.userService.create(userData);
   }
 
-  @ApiOperation({ summary: 'delete article by slug' })
-  @Delete('users/:slug')
-  async delete(@Param('slug') slug: string, @User('id') id: number) {
+  @ApiOperation({ summary: "delete article by slug" })
+  @Delete("users/:slug")
+  async delete(@Param("slug") slug: string, @User("id") id: number) {
     return await this.userService.delete(slug, id);
   }
 
-  @ApiOperation({ summary: 'login' })
+  @ApiOperation({ summary: "login" })
   @ApiBody({ type: LoginUserRO })
-  @Post('users/login')
-  async login(@Body('user') loginUserDto: LoginUserDto) {
+  @Post("users/login")
+  async login(@Body("user") loginUserDto: LoginUserDto) {
     const _user = await this.userService.findOne(loginUserDto);
 
-    const errors = { User: ' not found' };
+    const errors = { User: " not found" };
     if (!_user) throw new HttpException({ errors }, HttpStatus.UNAUTHORIZED);
 
     const token = await this.userService.generateJWT(_user);

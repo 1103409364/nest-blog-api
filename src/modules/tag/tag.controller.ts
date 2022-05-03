@@ -1,13 +1,13 @@
-import { Get, Controller } from '@nestjs/common';
+import { Get, Controller } from "@nestjs/common";
 
-import { TagEntity } from './entities/tag.entity';
-import { TagService } from './tag.service';
+import { TagEntity } from "./entities/tag.entity";
+import { TagService } from "./tag.service";
 
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @ApiBearerAuth()
-@ApiTags('tags')
-@Controller('tags')
+@ApiTags("tags")
+@Controller("tags")
 export class TagController {
   constructor(private readonly tagService: TagService) {}
 

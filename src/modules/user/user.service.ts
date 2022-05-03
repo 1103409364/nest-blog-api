@@ -1,15 +1,15 @@
-import * as argon2 from 'argon2';
-import * as jwt from 'jsonwebtoken';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { HttpStatus } from '@nestjs/common';
-import { Repository, DeleteResult } from 'typeorm';
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
-import { SECRET } from '@/config/secret';
-import { UserRO } from './user.interface';
-import { UserEntity } from './entities/user.entity';
-import { ArticleEntity } from '../article/entities/article.entity';
+import * as argon2 from "argon2";
+import * as jwt from "jsonwebtoken";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { HttpException } from "@nestjs/common/exceptions/http.exception";
+import { HttpStatus } from "@nestjs/common";
+import { Repository, DeleteResult } from "typeorm";
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from "./dto";
+import { SECRET } from "@/config/secret";
+import { UserRO } from "./user.interface";
+import { UserEntity } from "./entities/user.entity";
+import { ArticleEntity } from "../article/entities/article.entity";
 @Injectable()
 export class UserService {
   constructor(
@@ -26,7 +26,7 @@ export class UserService {
   async findOne({ email, password }: LoginUserDto): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { email },
-      select: ['password', 'id', 'username', 'email', 'bio', 'image'],
+      select: ["password", "id", "username", "email", "bio", "image"],
     });
     if (!user) {
       return null;
@@ -47,9 +47,9 @@ export class UserService {
     });
 
     if (user) {
-      const errors = { username: 'Username and email must be unique.' };
+      const errors = { username: "Username and email must be unique." };
       throw new HttpException(
-        { message: 'Input data validation failed', errors },
+        { message: "Input data validation failed", errors },
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -70,16 +70,16 @@ export class UserService {
       where: [{ username: dto.username }, { email: dto.email }],
     });
     if (user && user.id !== id) {
-      const errors = { username: 'Username and email must be unique.' };
+      const errors = { username: "Username and email must be unique." };
       throw new HttpException(
-        { message: 'Input data validation failed', errors },
+        { message: "Input data validation failed", errors },
         HttpStatus.BAD_REQUEST,
       );
     }
 
     const toUpdate = await this.userRepository.findOne({ where: { id } });
     if (!toUpdate) {
-      const errors = { User: ' not found' };
+      const errors = { User: " not found" };
       throw new HttpException({ errors }, HttpStatus.NOT_FOUND);
     }
 
@@ -92,11 +92,11 @@ export class UserService {
   async delete(slug: string, userId: number): Promise<DeleteResult> {
     const article = await this.articleRepository.findOne({
       where: { slug },
-      relations: ['author'],
+      relations: ["author"],
     });
 
     if (!article) {
-      const errors = { Article: ' not found' };
+      const errors = { Article: " not found" };
       throw new HttpException({ errors }, HttpStatus.NOT_FOUND);
     }
     if (article.author.id === userId) {
@@ -104,7 +104,7 @@ export class UserService {
       return { ...deleteRes, raw: article };
     }
 
-    const errors = { article: 'delete Forbidden' };
+    const errors = { article: "delete Forbidden" };
     throw new HttpException({ errors }, HttpStatus.FORBIDDEN);
   }
 
@@ -112,7 +112,7 @@ export class UserService {
     const user = await this.userRepository.findOne({ where: { id } });
 
     if (!user) {
-      const errors = { User: ' not found' };
+      const errors = { User: " not found" };
       throw new HttpException({ errors }, HttpStatus.UNAUTHORIZED);
     }
 

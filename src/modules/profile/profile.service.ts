@@ -1,12 +1,12 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../user/entities/user.entity';
-import { DeepPartial } from 'typeorm/common/DeepPartial';
-import { ProfileRO, ProfileData } from './profile.interface';
-import { FollowsEntity } from './entities/follows.entity';
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { CreateUserDto } from '../user/dto/create-user.dto';
+import { HttpStatus, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { UserEntity } from "../user/entities/user.entity";
+import { DeepPartial } from "typeorm/common/DeepPartial";
+import { ProfileRO, ProfileData } from "./profile.interface";
+import { FollowsEntity } from "./entities/follows.entity";
+import { HttpException } from "@nestjs/common/exceptions/http.exception";
+import { CreateUserDto } from "../user/dto/create-user.dto";
 
 @Injectable()
 export class ProfileService {
@@ -55,7 +55,7 @@ export class ProfileService {
   async follow(followerEmail: string, username: string): Promise<ProfileRO> {
     if (!followerEmail || !username) {
       throw new HttpException(
-        'Follower email and username not provided.',
+        "Follower email and username not provided.",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -69,7 +69,7 @@ export class ProfileService {
 
     if (followingUser.email === followerEmail) {
       throw new HttpException(
-        'FollowerEmail and FollowingId cannot be equal.',
+        "FollowerEmail and FollowingId cannot be equal.",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -98,7 +98,7 @@ export class ProfileService {
   async unFollow(followerId: number, username: string): Promise<ProfileRO> {
     if (!followerId || !username) {
       throw new HttpException(
-        'FollowerId and username not provided.',
+        "FollowerId and username not provided.",
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -109,7 +109,7 @@ export class ProfileService {
 
     if (followingUser.id === followerId) {
       throw new HttpException(
-        'FollowerId and FollowingId cannot be equal.',
+        "FollowerId and FollowingId cannot be equal.",
         HttpStatus.BAD_REQUEST,
       );
     }

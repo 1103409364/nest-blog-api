@@ -1,6 +1,6 @@
-import { UserEntity } from '@/modules/user/entities/user.entity';
-import { ArticleEntity } from './entities/article.entity';
-import { CommentEntity } from './entities/comment.entity';
+import { UserEntity } from "@/modules/user/entities/user.entity";
+import { ArticleEntity } from "./entities/article.entity";
+import { CommentEntity } from "./entities/comment.entity";
 export interface CommentData extends CommentEntity {
   author: UserEntity;
 }

@@ -6,12 +6,12 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
-} from 'typeorm';
-import * as argon2 from 'argon2';
-import { IsEmail } from 'class-validator';
-import { ArticleEntity } from '../../article/entities/article.entity';
+} from "typeorm";
+import * as argon2 from "argon2";
+import { IsEmail } from "class-validator";
+import { ArticleEntity } from "../../article/entities/article.entity";
 
-@Entity({ name: 'user' })
+@Entity({ name: "user" })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,10 +23,10 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column({ default: '' })
+  @Column({ default: "" })
   bio: string;
 
-  @Column({ default: '' })
+  @Column({ default: "" })
   image: string;
 
   @Column({ select: false })

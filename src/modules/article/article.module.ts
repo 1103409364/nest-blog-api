@@ -3,17 +3,17 @@ import {
   Module,
   NestModule,
   RequestMethod,
-} from '@nestjs/common';
-import { ArticleController } from './article.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArticleEntity } from './entities/article.entity';
-import { CommentEntity } from './entities/comment.entity';
-import { UserEntity } from '../user/entities/user.entity';
-import { FollowsEntity } from '../profile/entities/follows.entity';
-import { ArticleService } from './article.service';
-import { AuthMiddleware } from '../user/auth.middleware';
-import { UserModule } from '../user/user.module';
-import { TagEntity } from '../tag/entities/tag.entity';
+} from "@nestjs/common";
+import { ArticleController } from "./article.controller";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { ArticleEntity } from "./entities/article.entity";
+import { CommentEntity } from "./entities/comment.entity";
+import { UserEntity } from "../user/entities/user.entity";
+import { FollowsEntity } from "../profile/entities/follows.entity";
+import { ArticleService } from "./article.service";
+import { AuthMiddleware } from "../user/auth.middleware";
+import { UserModule } from "../user/user.module";
+import { TagEntity } from "../tag/entities/tag.entity";
 
 @Module({
   imports: [
@@ -34,14 +34,14 @@ export class ArticleModule implements NestModule {
     consumer
       .apply(AuthMiddleware)
       .forRoutes(
-        { path: 'articles/feed', method: RequestMethod.GET },
-        { path: 'articles', method: RequestMethod.POST },
-        { path: 'articles/:slug', method: RequestMethod.DELETE },
-        { path: 'articles/:slug', method: RequestMethod.PUT },
-        { path: 'articles/:slug/comments', method: RequestMethod.POST },
-        { path: 'articles/:slug/comments/:id', method: RequestMethod.DELETE },
-        { path: 'articles/:slug/favorite', method: RequestMethod.POST },
-        { path: 'articles/:slug/favorite', method: RequestMethod.DELETE },
+        { path: "articles/feed", method: RequestMethod.GET },
+        { path: "articles", method: RequestMethod.POST },
+        { path: "articles/:slug", method: RequestMethod.DELETE },
+        { path: "articles/:slug", method: RequestMethod.PUT },
+        { path: "articles/:slug/comments", method: RequestMethod.POST },
+        { path: "articles/:slug/comments/:id", method: RequestMethod.DELETE },
+        { path: "articles/:slug/favorite", method: RequestMethod.POST },
+        { path: "articles/:slug/favorite", method: RequestMethod.DELETE },
       );
   }
 }

@@ -1,19 +1,19 @@
-import * as slug from 'slug';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
-import { ArticleEntity } from './entities/article.entity';
-import { CommentEntity } from './entities/comment.entity';
-import { TagEntity } from '../tag/entities/tag.entity';
-import { UserEntity } from '../user/entities/user.entity';
-import { FollowsEntity } from '../profile/entities/follows.entity';
-import { CreateArticleDto } from './dto';
+import * as slug from "slug";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository, DeleteResult } from "typeorm";
+import { ArticleEntity } from "./entities/article.entity";
+import { CommentEntity } from "./entities/comment.entity";
+import { TagEntity } from "../tag/entities/tag.entity";
+import { UserEntity } from "../user/entities/user.entity";
+import { FollowsEntity } from "../profile/entities/follows.entity";
+import { CreateArticleDto } from "./dto";
 import {
   ArticleRO,
   ArticlesRO,
   CommentsRO,
   ArticleData,
-} from './article.interface';
+} from "./article.interface";
 @Injectable()
 export class ArticleService {
   constructor(
@@ -31,48 +31,48 @@ export class ArticleService {
 
   async findAll(query, userId): Promise<ArticlesRO> {
     const qb = await this.articleRepository // getRepository(ArticleEntity) deprecated 废弃
-      .createQueryBuilder('article')
-      .leftJoinAndSelect('article.author', 'author');
+      .createQueryBuilder("article")
+      .leftJoinAndSelect("article.author", "author");
 
-    if ('tag' in query) {
+    if ("tag" in query) {
       // qb.andWhere('article.tags LIKE :tag', { tag: `%${query.tag}%` });
       // 联查 tag 表，查询 tag 字段中包含 query.tag 的文章，'article.tags'关联关系, 'tag' 别名
-      qb.leftJoinAndSelect('article.tags', 'tag').where('tag.tag = :tag', {
+      qb.leftJoinAndSelect("article.tags", "tag").where("tag.tag = :tag", {
         tag: query.tag,
       });
     }
 
-    if ('author' in query) {
+    if ("author" in query) {
       const author = await this.userRepository.findOne({
         where: { username: query.author },
       });
-      qb.andWhere('article.authorId = :id', { id: author?.id });
+      qb.andWhere("article.authorId = :id", { id: author?.id });
     }
 
-    if ('favorite' in query) {
+    if ("favorite" in query) {
       const author = await this.userRepository.findOne({
         where: { username: query.favorite },
       });
       const ids = author?.favorites?.map((el) => el.id);
-      qb.andWhere('article.authorId IN (:ids)', { ids });
+      qb.andWhere("article.authorId IN (:ids)", { ids });
     }
 
-    qb.orderBy('article.created', 'DESC');
+    qb.orderBy("article.created", "DESC");
 
     const articlesCount = await qb.getCount();
 
-    if ('limit' in query) {
+    if ("limit" in query) {
       qb.limit(query.limit);
     }
 
-    if ('offset' in query) {
+    if ("offset" in query) {
       qb.offset(query.offset);
     }
 
     const articles: ArticleData[] = await qb.getMany();
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['favorites'],
+      relations: ["favorites"],
     });
 
     const favoriteIds = user.favorites.map((el) => el.id);
@@ -92,19 +92,19 @@ export class ArticleService {
     const ids = _follows.map((el) => el.followingId);
 
     const qb = await this.articleRepository
-      .createQueryBuilder('article')
-      .leftJoinAndSelect('article.author', 'author') // 关联查询
-      .where('article.authorId IN (:ids)', { ids });
+      .createQueryBuilder("article")
+      .leftJoinAndSelect("article.author", "author") // 关联查询
+      .where("article.authorId IN (:ids)", { ids });
 
-    qb.orderBy('article.created', 'DESC');
+    qb.orderBy("article.created", "DESC");
 
     const articlesCount = await qb.getCount();
 
-    if ('limit' in query) {
+    if ("limit" in query) {
       qb.limit(query.limit);
     }
 
-    if ('offset' in query) {
+    if ("offset" in query) {
       qb.offset(query.offset);
     }
 
@@ -121,7 +121,7 @@ export class ArticleService {
   async findOne(slug, userId): Promise<ArticleRO> {
     const article: ArticleData = await this.articleRepository.findOne({
       where: { slug },
-      relations: ['author'],
+      relations: ["author"],
     });
     // 当前用户关注的用户id followingId
     const followUsers = await this.followsRepository.find({
@@ -135,7 +135,7 @@ export class ArticleService {
 
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['favorites'],
+      relations: ["favorites"],
     });
     // 是否收藏了文章
     article.favorite = user.favorites.map((el) => el.id).includes(article.id);
@@ -178,11 +178,11 @@ export class ArticleService {
   async favorite(id: number, slug: string): Promise<ArticleRO> {
     let article: ArticleData = await this.articleRepository.findOne({
       where: { slug },
-      relations: ['author'],
+      relations: ["author"],
     });
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['favorites'],
+      relations: ["favorites"],
     });
 
     const isNewFavorite =
@@ -201,11 +201,11 @@ export class ArticleService {
   async unFavorite(id: number, slug: string): Promise<ArticleRO> {
     let article: ArticleData = await this.articleRepository.findOne({
       where: { slug },
-      relations: ['author'],
+      relations: ["author"],
     });
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['favorites'],
+      relations: ["favorites"],
     });
 
     const deleteIndex = user.favorites.findIndex(
@@ -227,8 +227,8 @@ export class ArticleService {
   async findComments(slug: string): Promise<CommentsRO> {
     const comments = await this.commentRepository.find({
       where: { slug },
-      relations: ['author'],
-      order: { created: 'DESC' },
+      relations: ["author"],
+      order: { created: "DESC" },
     });
     return { comments };
   }
@@ -256,7 +256,7 @@ export class ArticleService {
 
     const author = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['articles'],
+      relations: ["articles"],
     });
     author.articles.push(article);
 
@@ -268,7 +268,7 @@ export class ArticleService {
   async update(slug: string, articleData: any): Promise<ArticleRO> {
     const toUpdate = await this.articleRepository.findOne({
       where: { slug },
-      relations: ['tags'],
+      relations: ["tags"],
     });
     const oldTags = await this.tagRepository.find();
     const oldTagsIds = oldTags.map((el) => el.id);
@@ -286,7 +286,7 @@ export class ArticleService {
   slugify(title: string) {
     return (
       slug(title, { lower: true }) +
-      '-' +
+      "-" +
       ((Math.random() * Math.pow(36, 6)) | 0).toString(36)
     );
   }

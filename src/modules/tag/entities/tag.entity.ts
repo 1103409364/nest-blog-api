@@ -1,7 +1,7 @@
-import { ArticleEntity } from '@/modules/article/entities/article.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { ArticleEntity } from "@/modules/article/entities/article.entity";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 
-@Entity({ name: 'tag' })
+@Entity({ name: "tag" })
 export class TagEntity {
   @PrimaryGeneratedColumn()
   id: number;

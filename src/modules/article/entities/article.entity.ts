@@ -1,4 +1,4 @@
-import { TagEntity } from '@/modules/tag/entities/tag.entity';
+import { TagEntity } from "@/modules/tag/entities/tag.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,11 +7,11 @@ import {
   OneToMany,
   JoinColumn,
   BeforeUpdate,
-} from 'typeorm';
-import { UserEntity } from '../../user/entities/user.entity';
-import { CommentEntity } from './comment.entity';
+} from "typeorm";
+import { UserEntity } from "../../user/entities/user.entity";
+import { CommentEntity } from "./comment.entity";
 
-@Entity({ name: 'article' })
+@Entity({ name: "article" })
 export class ArticleEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,16 +22,16 @@ export class ArticleEntity {
   @Column()
   title: string;
 
-  @Column({ default: '' })
+  @Column({ default: "" })
   description: string;
 
-  @Column({ length: 5000, default: '' })
+  @Column({ length: 5000, default: "" })
   body: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   updated: Date;
 
   @BeforeUpdate()

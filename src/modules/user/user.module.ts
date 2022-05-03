@@ -3,13 +3,13 @@ import {
   Module,
   NestModule,
   RequestMethod,
-} from '@nestjs/common';
-import { UserController } from './user.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './entities/user.entity';
-import { UserService } from './user.service';
-import { AuthMiddleware } from './auth.middleware';
-import { ArticleEntity } from '../article/entities/article.entity';
+} from "@nestjs/common";
+import { UserController } from "./user.controller";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserEntity } from "./entities/user.entity";
+import { UserService } from "./user.service";
+import { AuthMiddleware } from "./auth.middleware";
+import { ArticleEntity } from "../article/entities/article.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity, ArticleEntity])],
@@ -22,8 +22,8 @@ export class UserModule implements NestModule {
     consumer
       .apply(AuthMiddleware)
       .forRoutes(
-        { path: 'user', method: RequestMethod.GET },
-        { path: 'user/:userId', method: RequestMethod.PUT },
+        { path: "user", method: RequestMethod.GET },
+        { path: "user/:userId", method: RequestMethod.PUT },
       );
   }
 }
