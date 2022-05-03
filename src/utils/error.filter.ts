@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { Logger } from 'winston';
 import { Request, Response } from 'express';
 
 interface ErrorResponse {
@@ -18,6 +19,8 @@ interface ErrorResponse {
 
 @Catch() //装饰器传 HttpException 只处理 http 异常，不传可以处理所有异常
 export class ErrorFilter implements ExceptionFilter {
+  constructor(private readonly logger: Logger) {}
+
   catch(error: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -38,6 +41,8 @@ export class ErrorFilter implements ExceptionFilter {
     if (statusCode === HttpStatus.INTERNAL_SERVER_ERROR) {
       errorResponse.stack = error.stack;
     }
+
+    this.logger.error({ message: [error.message, error.stack].join('\n') });
 
     response.status(statusCode).json(errorResponse);
   }
