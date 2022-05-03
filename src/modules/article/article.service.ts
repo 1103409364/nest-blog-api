@@ -118,18 +118,27 @@ export class ArticleService {
    * @param followerId 当前用户 userId
    * @returns
    */
-  async findOne(slug, followerId): Promise<ArticleRO> {
+  async findOne(slug, userId): Promise<ArticleRO> {
     const article: ArticleData = await this.articleRepository.findOne({
       where: { slug },
       relations: ['author'],
     });
     // 当前用户关注的用户id followingId
-    const users = await this.followsRepository.find({
-      where: { followerId },
+    const followUsers = await this.followsRepository.find({
+      where: { followerId: userId },
     });
 
-    const userIds = users.map((el) => el.followingId);
-    article.author.following = userIds && userIds.includes(article.author.id);
+    // 是否关注了作者
+    article.author.following = followUsers
+      .map((el) => el.followingId)
+      .includes(article.author.id);
+
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+    // 是否收藏了文章
+    article.favorite = user.favorites.map((el) => el.id).includes(article.id);
 
     return { article };
   }
