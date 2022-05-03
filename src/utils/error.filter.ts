@@ -4,8 +4,8 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
-import { Logger } from 'winston';
 import { Request, Response } from 'express';
 
 interface ErrorResponse {
@@ -19,7 +19,7 @@ interface ErrorResponse {
 
 @Catch() //装饰器传 HttpException 只处理 http 异常，不传可以处理所有异常
 export class ErrorFilter implements ExceptionFilter {
-  constructor(private readonly logger: Logger) {}
+  private readonly logger: Logger = new Logger('ErrorFilter');
 
   catch(error: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
