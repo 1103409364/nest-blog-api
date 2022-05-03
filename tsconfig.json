@@ -18,6 +18,7 @@
     "noFallthroughCasesInSwitch": false,
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": { "@/*": ["src/*"] }
+    "paths": { "@/*": ["src/*"] },
+    "exclude": ["dist/*"],
   }
 }
