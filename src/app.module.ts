@@ -10,6 +10,7 @@ import { ArticleModule } from './modules/article/article.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { TagModule } from './modules/tag/tag.module';
 import { configuration } from './config/configuration';
+import { UploadModule } from './modules/upload/upload.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,12 +23,14 @@ import { configuration } from './config/configuration';
       inject: [ConfigService],
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/static',
     }),
     UserModule,
     ArticleModule,
     ProfileModule,
     TagModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
