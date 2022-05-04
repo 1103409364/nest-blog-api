@@ -127,7 +127,7 @@ export class UserService {
   public generateJWT(user) {
     const today = new Date();
     const exp = new Date(today);
-    exp.setDate(today.getDate() + 60);
+    exp.setDate(today.getDate() + 1);
 
     return jwt.sign(
       {
