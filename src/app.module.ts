@@ -11,6 +11,9 @@ import { ProfileModule } from "./modules/profile/profile.module";
 import { TagModule } from "./modules/tag/tag.module";
 import { configuration } from "./config/configuration";
 import { UploadModule } from "./modules/upload/upload.module";
+import { StatusMonitorModule } from "nestjs-status-monitor";
+import { statusMonitorOption } from "./config/statusMonitor";
+import { serveStaticOption } from "./config/serveStatic";
 // import { ScheduleModule } from "@nestjs/schedule";
 // import { TasksModule } from "./modules/tasks/task.module";
 @Module({
@@ -24,10 +27,8 @@ import { UploadModule } from "./modules/upload/upload.module";
       useFactory: (config: ConfigService) => config.get("database"),
       inject: [ConfigService],
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "public"),
-      serveRoot: "/static",
-    }),
+    ServeStaticModule.forRoot(serveStaticOption),
+    StatusMonitorModule.forRoot(statusMonitorOption),
     // ScheduleModule.forRoot(),
     // TasksModule,
     UserModule,
