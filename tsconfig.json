@@ -19,6 +19,5 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": { "@/*": ["src/*"] },
-    "exclude": ["dist/*"],
   }
 }
