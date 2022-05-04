@@ -11,6 +11,8 @@ import { ProfileModule } from "./modules/profile/profile.module";
 import { TagModule } from "./modules/tag/tag.module";
 import { configuration } from "./config/configuration";
 import { UploadModule } from "./modules/upload/upload.module";
+// import { ScheduleModule } from "@nestjs/schedule";
+// import { TasksModule } from "./modules/tasks/task.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +28,8 @@ import { UploadModule } from "./modules/upload/upload.module";
       rootPath: join(__dirname, "..", "public"),
       serveRoot: "/static",
     }),
+    // ScheduleModule.forRoot(),
+    // TasksModule,
     UserModule,
     ArticleModule,
     ProfileModule,

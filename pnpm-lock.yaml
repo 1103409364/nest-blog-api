@@ -6,6 +6,7 @@ specifiers:
   '@nestjs/config': ^2.0.0
   '@nestjs/core': ^8.4.4
   '@nestjs/platform-express': ^8.4.4
+  '@nestjs/schedule': ^1.1.0
   '@nestjs/schematics': ^8.0.10
   '@nestjs/serve-static': ^2.2.2
   '@nestjs/swagger': ^5.2.1
@@ -53,6 +54,7 @@ dependencies:
   '@nestjs/config': 2.0.0_ozyn6uy6pikqhtn6hfkzt5a5w4
   '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
   '@nestjs/platform-express': 8.4.4_u6bxr3c7htwmhq2t5wi3k6ht4y
+  '@nestjs/schedule': 1.1.0_ri7uarpfhib2ateqzcw7uno7zy
   '@nestjs/serve-static': 2.2.2_u6bxr3c7htwmhq2t5wi3k6ht4y
   '@nestjs/swagger': 5.2.1_bubfdbyexfeae5f3hjn7okamgm
   '@nestjs/typeorm': 8.0.3_s6kf2wxaqx7c7ghapepprqoxna
@@ -954,6 +956,20 @@ packages:
       express: 4.17.3
       multer: 1.4.4
       tslib: 2.3.1
+    dev: false
+
+  /@nestjs/schedule/1.1.0_ri7uarpfhib2ateqzcw7uno7zy:
+    resolution: {integrity: sha512-0QpbwClUildXqlyoaygG+aIQZNNMv31XDyQxX+Ob1zw/3I8+AVrDlBwZHQ+tlhIcJFR8aG+VTH8xwIjXwtS1UA==}
+    peerDependencies:
+      '@nestjs/common': ^6.10.11 || ^7.0.0 || ^8.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0
+      reflect-metadata: ^0.1.12
+    dependencies:
+      '@nestjs/common': 8.4.4_kgmvgmqc4iohdboj3f7yqhrie4
+      '@nestjs/core': 8.4.4_wy6cne2gpevj2v6pvodnemcq2i
+      cron: 1.8.2
+      reflect-metadata: 0.1.13
+      uuid: 8.3.2
     dev: false
 
   /@nestjs/schematics/8.0.10_ezuyfu3uj65g35wdjb6342atpm:
@@ -2313,6 +2329,12 @@ packages:
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
     dev: true
+
+  /cron/1.8.2:
+    resolution: {integrity: sha512-Gk2c4y6xKEO8FSAUTklqtfSr7oTq0CiPQeLBG5Fl0qoXpZyMcj1SG59YL+hqq04bu6/IuEA7lMkYDAplQNKkyg==}
+    dependencies:
+      moment-timezone: 0.5.34
+    dev: false
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -4443,6 +4465,12 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
+    dev: false
+
+  /moment-timezone/0.5.34:
+    resolution: {integrity: sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==}
+    dependencies:
+      moment: 2.29.3
     dev: false
 
   /moment/2.29.3:
