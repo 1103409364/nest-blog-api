@@ -20,7 +20,7 @@ export const loggerOption = {
     }),
     new DailyRotateFile({
       filename: "logs/application-%DATE%.log",
-      datePattern: "YYYY-MM-DD_HH-mm",
+      datePattern: "YYYY-MM-DD_HH",
       zippedArchive: true,
       maxSize: "20m",
       maxFiles: "14d",
