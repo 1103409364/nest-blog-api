@@ -6,6 +6,7 @@ import { AppModule } from "./app.module";
 import { ValidationPipe } from "./utils/validation.pipe";
 import { ErrorFilter } from "./utils/error.filter";
 import { loggerOption } from "./config/logger";
+import { TransformInterceptor } from "./utils/transform.interceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -15,6 +16,7 @@ async function bootstrap() {
   app.setGlobalPrefix(process.env.API_PREFIX);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new ErrorFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
   const options = new DocumentBuilder()
     .setTitle("NestJs RealWorld Example App")
     .setDescription("The RealWorld API")
