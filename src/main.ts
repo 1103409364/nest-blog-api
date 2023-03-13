@@ -24,6 +24,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
+  // 访问 http://ip:3080/docs/ 查看 api 文档
   SwaggerModule.setup("docs", app, document);
   await app.listen(process.env.PORT);
   console.log(
