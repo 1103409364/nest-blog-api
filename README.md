@@ -26,6 +26,9 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## 环境准备
+数据库类型 MySQL8，数据库名称 realworld，nest 启动后自动建表。
+
 ## Installation
 
 ```bash

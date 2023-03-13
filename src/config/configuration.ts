@@ -3,11 +3,12 @@ import { join } from "path";
 
 export const configuration = () => ({
   port: parseInt(process.env.PORT, 10) || 3000,
+  // 数据库配置
   database: {
     host: process.env.DATABASE_HOST || "localhost",
     port: parseInt(process.env.DATABASE_PORT, 10) || 3306,
     type: process.env.DATABASE_TYPE || "mysql",
-    socketPath: "/tmp/mysql.sock",
+    // socketPath: "/tmp/mysql.sock", // 配置 socketPath Linux 连不上
     username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_DATABASE,

@@ -1,57 +1,57 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@nestjs/cli': ^8.2.8
-  '@nestjs/common': ^8.4.7
-  '@nestjs/config': ^2.2.0
-  '@nestjs/core': ^8.4.7
-  '@nestjs/platform-express': ^8.4.7
-  '@nestjs/platform-socket.io': ^8.4.7
+  '@nestjs/cli': ^8.2.5
+  '@nestjs/common': ^8.4.4
+  '@nestjs/config': ^2.0.0
+  '@nestjs/core': ^8.4.4
+  '@nestjs/platform-express': ^8.4.4
+  '@nestjs/platform-socket.io': ^8.4.4
   '@nestjs/schedule': ^1.1.0
-  '@nestjs/schematics': ^8.0.11
+  '@nestjs/schematics': ^8.0.10
   '@nestjs/serve-static': ^2.2.2
   '@nestjs/swagger': ^5.2.1
-  '@nestjs/testing': ^8.4.7
-  '@nestjs/typeorm': ^8.1.4
-  '@nestjs/websockets': ^8.4.7
+  '@nestjs/testing': ^8.4.4
+  '@nestjs/typeorm': ^8.0.3
+  '@nestjs/websockets': ^8.4.4
   '@types/express': ^4.17.13
   '@types/jest': 27.4.1
   '@types/jsonwebtoken': ^8.5.8
   '@types/multer': ^1.4.7
-  '@types/node': ^16.11.46
+  '@types/node': ^16.11.26
   '@types/socket.io': ^3.0.2
   '@types/supertest': ^2.0.12
-  '@typescript-eslint/eslint-plugin': ^5.31.0
-  '@typescript-eslint/parser': ^5.31.0
-  argon2: ^0.28.7
+  '@typescript-eslint/eslint-plugin': ^5.19.0
+  '@typescript-eslint/parser': ^5.19.0
+  argon2: ^0.28.5
   class-transformer: ^0.5.1
   class-validator: ^0.13.2
-  eslint: ^8.20.0
+  eslint: ^8.13.0
   eslint-config-prettier: ^8.5.0
-  eslint-plugin-prettier: ^4.2.1
+  eslint-plugin-prettier: ^4.0.0
   jest: ^27.5.1
   jsonwebtoken: ^8.5.1
   mysql2: ^2.3.3
-  nest-winston: ^1.7.0
+  nest-winston: ^1.6.2
   nestjs-status-monitor: ^1.0.1
   nuid: ^1.1.6
   passport-jwt: ^4.0.0
-  prettier: ^2.7.1
+  prettier: ^2.6.2
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
-  rxjs: ^7.5.6
+  rxjs: ^7.5.5
   slug: ^5.3.0
   source-map-support: ^0.5.21
-  supertest: ^6.2.4
-  swagger-ui-express: ^4.5.0
-  ts-jest: ^27.1.5
-  ts-loader: ^9.3.1
-  ts-node: ^10.9.1
+  supertest: ^6.2.2
+  swagger-ui-express: ^4.3.0
+  ts-jest: ^27.1.4
+  ts-loader: ^9.2.8
+  ts-node: ^10.7.0
   tsconfig-paths: ^3.14.1
-  typeorm: ^0.3.7
-  typescript: ^4.7.4
-  winston: ^3.8.1
-  winston-daily-rotate-file: ^4.7.1
+  typeorm: ^0.3.6
+  typescript: ^4.6.3
+  winston: ^3.7.2
+  winston-daily-rotate-file: ^4.6.1
 
 dependencies:
   '@nestjs/common': 8.4.7_allg6cauirbqzgqcmexy2wdnoq
@@ -1436,7 +1436,7 @@ packages:
     dev: true
 
   /@types/superagent/4.1.15:
-    resolution: {integrity: sha512-iiXaOL2wSbnSY4qg0mFPWJHL9iwyEsoNYwaHF2w58/fsVAQJlj+KUfFAFZu+nzbz+b7dUprJEAc+O9vhHHhQTA==, tarball: '@types/superagent/-/superagent-4.1.14.tgz'}
+    resolution: {integrity: sha512-iiXaOL2wSbnSY4qg0mFPWJHL9iwyEsoNYwaHF2w58/fsVAQJlj+KUfFAFZu+nzbz+b7dUprJEAc+O9vhHHhQTA==}
     deprecated: '[WARNING] Use 4.1.14 instead of 4.1.15, reason: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/58445'
     dependencies:
       '@types/cookiejar': 2.1.2
@@ -5351,6 +5351,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
     dev: true
 
   /sprintf-js/1.0.3:
