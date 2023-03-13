@@ -13,6 +13,7 @@
     "start:dev": "NODE_ENV=dev nest start --watch",
     "start:debug": "NODE_ENV=dev nest start --debug --watch",
     "start:prod": "NODE_ENV=prod node dist/main",
+    "start:pm2": "pm2 start npm --name realword  -- run start:prod",
     "start:win": "set NODE_ENV=dev && nest start",
     "start:dev:win": "set NODE_ENV=dev && nest start --watch",
     "start:debug:win": "set NODE_ENV=dev && nest start --debug --watch",
