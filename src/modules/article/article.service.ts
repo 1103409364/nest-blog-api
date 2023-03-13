@@ -74,9 +74,12 @@ export class ArticleService {
       where: { id: userId },
       relations: ["favorites"],
     });
+    
+    if(user) {
+      const favoriteIds = user.favorites.map((el) => el.id);
+      articles.forEach((el) => (el.favorite = favoriteIds.includes(el.id)));
+    }
 
-    const favoriteIds = user.favorites.map((el) => el.id);
-    articles.forEach((el) => (el.favorite = favoriteIds.includes(el.id)));
     return { articles, articlesCount };
   }
   // 获取我关注的人的文章
