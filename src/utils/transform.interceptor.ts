@@ -11,7 +11,7 @@ export class TransformInterceptor<T extends { businessCode?: string }>
   intercept(context: ExecutionContext, next: CallHandler<T>) {
     return next.handle().pipe(
       map((data) => ({
-        code: data.businessCode || 0,
+        code: (data || {}).businessCode || 0,
         message: "OK",
         data,
       })),

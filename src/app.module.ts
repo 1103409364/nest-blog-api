@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { join } from "path";
+// import { join } from "path";
 import { UserModule } from "./modules/user/user.module";
 import { ArticleModule } from "./modules/article/article.module";
 import { ProfileModule } from "./modules/profile/profile.module";
@@ -16,6 +16,7 @@ import { statusMonitorOption } from "./config/statusMonitor";
 import { serveStaticOption } from "./config/serveStatic";
 // import { ScheduleModule } from "@nestjs/schedule";
 // import { TasksModule } from "./modules/tasks/task.module";
+import { OcrModule } from "./modules/ocr/ocr.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,6 +37,7 @@ import { serveStaticOption } from "./config/serveStatic";
     ProfileModule,
     TagModule,
     UploadModule,
+    OcrModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],

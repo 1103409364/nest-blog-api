@@ -43,6 +43,7 @@
     "mysql2": "^2.3.3",
     "nest-winston": "^1.6.2",
     "nestjs-status-monitor": "^1.0.1",
+    "node-tesseract-ocr": "^2.2.1",
     "nuid": "^1.1.6",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",

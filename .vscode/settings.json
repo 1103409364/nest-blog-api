@@ -3,6 +3,7 @@
     "nuid",
     "originalname",
     "prebuild",
+    "tesseract",
     "typeorm"
   ],
   "npm.packageManager": "pnpm"

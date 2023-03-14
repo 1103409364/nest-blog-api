@@ -74,8 +74,8 @@ export class ArticleService {
       where: { id: userId },
       relations: ["favorites"],
     });
-    
-    if(user) {
+
+    if (user) {
       const favoriteIds = user.favorites.map((el) => el.id);
       articles.forEach((el) => (el.favorite = favoriteIds.includes(el.id)));
     }
