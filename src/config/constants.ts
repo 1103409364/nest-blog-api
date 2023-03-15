@@ -1,1 +1,3 @@
-export const staticBaseUrl = "http://localhost:3080/static/uploads/";
+export const ROOT = "/public";
+export const UPLOAD_FOLDER = "/uploads";
+export const SERVE_ROOT = "/static";
