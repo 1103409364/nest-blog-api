@@ -11,6 +11,7 @@ import {
 import { FileController } from "./file.controller";
 import { FileService } from "./file.service";
 import { mkdirIfNotExists } from "@/utils/tools";
+
 @Module({
   imports: [
     MulterModule.register({
@@ -28,6 +29,7 @@ import { mkdirIfNotExists } from "@/utils/tools";
           return cb(null, filePath);
         },
         filename(req, file, cb) {
+          file.originalname = decodeURIComponent(escape(file.originalname));
           cb(null, `${nuid.next()}-${file.originalname}`); // 自定义文件名称
         },
       }),
