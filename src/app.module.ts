@@ -10,7 +10,7 @@ import { ArticleModule } from "./modules/article/article.module";
 import { ProfileModule } from "./modules/profile/profile.module";
 import { TagModule } from "./modules/tag/tag.module";
 import { configuration } from "./config/configuration";
-import { UploadModule } from "./modules/upload/upload.module";
+import { FileModule } from "./modules/file/file.module";
 import { StatusMonitorModule } from "nestjs-status-monitor";
 import { statusMonitorOption } from "./config/statusMonitor";
 import { serveStaticOption } from "./config/serveStatic";
@@ -36,7 +36,7 @@ import { OcrModule } from "./modules/ocr/ocr.module";
     ArticleModule,
     ProfileModule,
     TagModule,
-    UploadModule,
+    FileModule,
     OcrModule,
   ],
   controllers: [AppController],

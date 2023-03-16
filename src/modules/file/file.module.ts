@@ -1,11 +1,11 @@
+import * as nuid from "nuid";
 import { Module } from "@nestjs/common";
 import { join } from "path";
-import { UploadController } from "./upload.controller";
-import { UploadService } from "./upload.service";
 import { MulterModule } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import * as nuid from "nuid";
 import { ROOT, UPLOAD_FOLDER } from "@/config/constants";
+import { FileController } from "./file.controller";
+import { FileService } from "./file.service";
 @Module({
   imports: [
     MulterModule.register({
@@ -17,7 +17,7 @@ import { ROOT, UPLOAD_FOLDER } from "@/config/constants";
       }),
     }),
   ],
-  controllers: [UploadController],
-  providers: [UploadService],
+  controllers: [FileController],
+  providers: [FileService],
 })
-export class UploadModule {}
+export class FileModule {}

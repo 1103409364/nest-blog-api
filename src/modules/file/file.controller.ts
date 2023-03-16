@@ -9,13 +9,13 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { Express } from "express";
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { FileUploadDto } from "./dto/file-upload.dto";
-import { UploadService } from "./upload.service";
+import { FileService } from "./file.service";
 
 @ApiTags("file upload")
 @ApiBearerAuth()
 @Controller("upload")
-export class UploadController {
-  constructor(private readonly uploadService: UploadService) {}
+export class FileController {
+  constructor(private readonly uploadService: FileService) {}
   @ApiConsumes("multipart/form-data")
   @ApiBody({
     description: "file",
