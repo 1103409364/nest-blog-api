@@ -31,8 +31,6 @@ export class FileService {
       uploadTime: new Date(),
     });
 
-    console.log(res);
-
     return {
       fullPath: `${ipV4}:${process.env.PORT}${SERVE_ROOT}${filePath}`,
       ...res,
