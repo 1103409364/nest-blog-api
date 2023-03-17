@@ -6,7 +6,16 @@ export class FileEntity {
   id?: number;
 
   @Column()
-  filePath: string;
+  filePath: string; // 真实路径
+
+  @Column()
+  staticPath: string; // 静态路径
+
+  @Column()
+  previewPath: string; // 预览文件真实路径
+
+  @Column()
+  previewStaticPath: string; // 静态预览路径
 
   @Column()
   mimeType: string;
