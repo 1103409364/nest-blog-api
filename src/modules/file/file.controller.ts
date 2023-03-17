@@ -24,8 +24,7 @@ export class FileController {
   @Post("file")
   @UseInterceptors(FileInterceptor("file"))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const url = await this.uploadService.buildFilePath(file);
-    return { file: url };
+    return await this.uploadService.buildFilePath(file);
   }
 
   @Post("files")
