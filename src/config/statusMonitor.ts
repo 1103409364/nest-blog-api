@@ -1,3 +1,4 @@
+const port = process.env.PORT;
 export const statusMonitorOption = {
   title: "NestJS Status", // Default title
   path: "/status",
@@ -40,5 +41,23 @@ export const statusMonitorOption = {
       path: "/api/articles",
       port: 3080,
     },
+    {
+      protocol: "http",
+      host: "localhost",
+      path: "/api/tags",
+      port: 3080,
+    },
+    // {
+    //   protocol: "http",
+    //   host: "localhost",
+    //   path: "/api/ocr",
+    //   port: 3080,
+    // },
+    // {
+    //   protocol: "http",
+    //   host: "localhost",
+    //   path: "/api/file/upload",
+    //   port: 3080,
+    // },
   ],
 };
