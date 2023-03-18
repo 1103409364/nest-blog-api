@@ -11,17 +11,24 @@ import {
   FileInterceptor,
 } from "@nestjs/platform-express";
 import { Express } from "express";
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from "@nestjs/swagger";
 import { FileUploadDto } from "./dto/file-upload.dto";
 import { FileService } from "./file.service";
 
-@ApiTags("file upload")
+@ApiTags("file manage")
 @ApiBearerAuth()
-@Controller("upload")
+@Controller("file")
 export class FileController {
   constructor(private readonly uploadService: FileService) {}
 
-  @Post("file")
+  @Post("upload")
+  @ApiOperation({ summary: "upload file and convert to PDF" })
   @ApiConsumes("multipart/form-data")
   @ApiBody({
     description: "file",
@@ -35,7 +42,7 @@ export class FileController {
   // https://docs.nestjs.com/techniques/file-upload
   // https://swagger.io/docs/specification/describing-request-body/file-upload/
   // 多文件上传 https://docs.nestjs.com/techniques/file-upload#any-files
-  @Post("files")
+  @Post("uploadAny")
   @ApiConsumes("multipart/form-data")
   @ApiBody({
     schema: {
@@ -58,7 +65,7 @@ export class FileController {
     return await Promise.all(promiseArr);
   }
   // 用户文件上传 头像 背景
-  @Post("filesUser")
+  @Post("uploadMulti")
   @ApiConsumes("multipart/form-data")
   @ApiBody({
     schema: {

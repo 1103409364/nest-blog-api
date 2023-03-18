@@ -39,11 +39,14 @@ export class FileService {
       file.filename.replace(/\..+$/, ""),
     );
 
+    const previewStaticPath =
+      previewPath && `${SERVE_ROOT}${previewPath.replace(STATIC_PATH, "")}`;
+
     const res = await this.create({
       staticPath: `${SERVE_ROOT}${filePath}`,
       filePath,
       previewPath,
-      previewStaticPath: `${SERVE_ROOT}${previewPath.replace(STATIC_PATH, "")}`,
+      previewStaticPath,
       mimeType,
       fileSize: file.size,
       uploadTime: new Date(),
@@ -58,7 +61,7 @@ export class FileService {
     const res = await this.fileRepository.save(newFile);
     return res;
   }
-  // 文件转换 to pdf TODO:排除不可转换的文件，excel 分页问题
+  // 文件转换 to pdf TODO: excel 分页问题
   async officeConvert(inputPath: string, fileName: string) {
     const ext = ".pdf";
     const outputFolder = join(STATIC_PATH, PREVIEW_FOLDER);
@@ -68,8 +71,11 @@ export class FileService {
     const docxBuf = await fs.readFile(inputPath);
 
     // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
-    const pdfBuf = await convertAsync(docxBuf, ext, undefined);
-
+    const pdfBuf = await convertAsync(docxBuf, ext, undefined).catch((e) => {
+      console.log(e);
+      return;
+    });
+    if (!pdfBuf) return;
     // Here in done you have pdf file which you can save or transfer in another stream
     await fs.writeFile(outputPath, pdfBuf);
     return outputPath;

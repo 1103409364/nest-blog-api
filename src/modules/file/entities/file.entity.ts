@@ -5,17 +5,17 @@ export class FileEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column()
+  @Column({ default: "" })
   filePath: string; // 真实路径
 
-  @Column()
+  @Column({ default: "" })
   staticPath: string; // 静态路径
 
-  @Column()
-  previewPath: string; // 预览文件真实路径
+  @Column({ default: "" })
+  previewPath?: string; // 预览文件真实路径
 
-  @Column()
-  previewStaticPath: string; // 静态预览路径
+  @Column({ default: "" })
+  previewStaticPath?: string; // 静态预览路径
 
   @Column()
   mimeType: string;
