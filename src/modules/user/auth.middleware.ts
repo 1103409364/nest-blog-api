@@ -18,7 +18,8 @@ export class AuthMiddleware implements NestMiddleware {
       let decoded: JwtData;
       try {
         decoded = jwt.verify(token, SECRET) as JwtData;
-      } catch ({ message }) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch ({ message }: any) {
         throw new HttpException(message, HttpStatus.UNAUTHORIZED);
       }
 

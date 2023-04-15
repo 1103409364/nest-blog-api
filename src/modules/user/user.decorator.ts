@@ -24,7 +24,8 @@ export const User = createParamDecorator(
     try {
       const decoded = jwt.verify(token, SECRET) as JwtData;
       return !!data ? decoded[data] : decoded.user;
-    } catch ({ message }) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch ({ message }: any) {
       throw new HttpException(message, HttpStatus.UNAUTHORIZED);
     }
   },
