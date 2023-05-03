@@ -83,7 +83,7 @@ export class FileController {
       { name: "background", maxCount: 1 },
     ]),
   )
-  uploadFileUser(
+  async uploadFileUser(
     @UploadedFiles()
     files: {
       avatar?: Express.Multer.File[];
@@ -99,6 +99,19 @@ export class FileController {
       );
       return promises;
     }, []);
-    return Promise.all(promiseArr).then(() => res);
+    await Promise.all(promiseArr);
+    return res;
+  }
+  // excel 转 xml
+  @Post("excelToXML")
+  @ApiOperation({ summary: "upload excel and convert to xml" })
+  @ApiConsumes("multipart/form-data")
+  @ApiBody({
+    description: "file",
+    type: FileUploadDto,
+  })
+  @UseInterceptors(FileInterceptor("file"))
+  async excelToXML(@UploadedFile() file) {
+    return await this.fileService.convertExcelToXml(file);
   }
 }

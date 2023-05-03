@@ -18,6 +18,7 @@ import { FileEntity } from "./entities/file.entity";
   imports: [
     TypeOrmModule.forFeature([FileEntity]),
     MulterModule.register({
+      // memoryStorage TODO: 能否动态控制上传到内存还是磁盘，或者第三方存储
       storage: diskStorage({
         destination: (req, file, cb) => {
           // const basePath = join(__dirname, "../../../", ROOT, UPLOAD_FOLDER); // 上传到 /root/workspace/realworld-nestjs8-mysql/dist/modules/upload/static

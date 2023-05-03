@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import * as xlsx from "xlsx";
+import { Builder } from "xml2js";
 import {
   DEFAULT_MIMETYPE,
   PREVIEW_FOLDER,
@@ -15,6 +17,7 @@ import { join } from "path";
 import { promisify } from "node:util";
 import * as libre from "libreoffice-convert";
 import { mkdirIfNotExists } from "@/utils/tools";
+import { Row } from "./file";
 const convertAsync = promisify(libre.convert);
 
 @Injectable()
@@ -54,6 +57,49 @@ export class FileService {
       fileSize: file.size,
       uploadTime: new Date(),
     });
+  }
+  // excel 转换 xml
+  async convertExcelToXml(file: Express.Multer.File) {
+    const { filePath, fileName } = this.buildFilePath(file);
+    // Read file 存储到 diskStorage file.buffer 为 undefined
+    const fileBuf = await fs.readFile(filePath);
+    // 读取 Excel 文件
+    const workbook = xlsx.read(fileBuf, { type: "buffer" });
+
+    // 将 Excel 转换为 JSON
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const excelJson = xlsx.utils.sheet_to_json(sheet);
+
+    // 创建 XML 构建器
+    const builder = new Builder();
+    const xmlData = {
+      root: {
+        row: excelJson.map((row) => {
+          const newRow = {};
+          for (const key in row as Row) {
+            newRow[key] = row[key];
+          }
+          return newRow;
+        }),
+      },
+    };
+
+    // 将 JSON 转换为 XML
+    const xml = builder.buildObject(xmlData);
+    // 转换成功后删除 Excel 文件
+    await fs.unlink(filePath).catch((e) => {
+      console.log(e);
+      return e;
+    });
+    // XML 文件保存到 outputPath
+    const outputFolder = join(STATIC_PATH, PREVIEW_FOLDER);
+    mkdirIfNotExists(outputFolder);
+    const outputPath = join(outputFolder, `${fileName}.xml`);
+    await fs.writeFile(outputPath, xml);
+    return outputPath
+      ? `${SERVE_ROOT}${outputPath.replace(STATIC_PATH, "")}`
+      : ""; // 下载地址 ip 端口 + previewStaticPath;
   }
   // 文件信息入库
   async save(dto: FileEntity) {
