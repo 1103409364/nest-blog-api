@@ -2,7 +2,7 @@ import * as nuid from "nuid";
 import { Module } from "@nestjs/common";
 import { join } from "path";
 import { MulterModule } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
+import { diskStorage } from "multer"; // 需要安装 multer。否则使用幽灵依赖会报错：Cannot find module 'multer'
 import {
   DEFAULT_MIMETYPE,
   STATIC_PATH,
