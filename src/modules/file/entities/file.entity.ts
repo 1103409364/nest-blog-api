@@ -6,6 +6,9 @@ export class FileEntity {
   id?: number;
 
   @Column({ default: "" })
+  fileName: string; // 文件名。默认值不能用 CURRENT_TIMESTAMP
+
+  @Column({ default: "" })
   filePath: string; // 真实路径
 
   @Column({ default: "" })

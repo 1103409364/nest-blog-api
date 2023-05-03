@@ -25,7 +25,7 @@ import { FileService } from "./file.service";
 @ApiBearerAuth()
 @Controller("file")
 export class FileController {
-  constructor(private readonly uploadService: FileService) {}
+  constructor(private readonly fileService: FileService) {}
 
   @Post("upload")
   @ApiOperation({ summary: "upload file and convert to PDF" })
@@ -36,7 +36,7 @@ export class FileController {
   })
   @UseInterceptors(FileInterceptor("file"))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return await this.uploadService.buildFilePath(file);
+    return await this.fileService.convertToPdf(file);
   }
 
   // https://docs.nestjs.com/techniques/file-upload
@@ -58,7 +58,7 @@ export class FileController {
   @UseInterceptors(AnyFilesInterceptor())
   async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
     const promiseArr = files.reduce((res, cur) => {
-      res.push(this.uploadService.buildFilePath(cur));
+      res.push(this.fileService.convertToPdf(cur));
       return res;
     }, []);
 
@@ -66,6 +66,7 @@ export class FileController {
   }
   // 用户文件上传 头像 背景
   @Post("uploadMulti")
+  @ApiOperation({ summary: "upload avatar and background" })
   @ApiConsumes("multipart/form-data")
   @ApiBody({
     schema: {
@@ -89,6 +90,15 @@ export class FileController {
       background?: Express.Multer.File[];
     },
   ) {
-    console.log(files);
+    const res = {};
+    const promiseArr = Object.keys(files).reduce((promises, key) => {
+      promises.push(
+        (async () => {
+          res[key] = await this.fileService.saveFile(files[key][0]);
+        })(),
+      );
+      return promises;
+    }, []);
+    return Promise.all(promiseArr).then(() => res);
   }
 }
