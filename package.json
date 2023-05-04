@@ -6,21 +6,20 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "rm -rf dist && nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.json\" \"test/**/*.ts\"",
     "start": "cross-env NODE_ENV=development nest start",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
+    "build": "rm -rf dist && nest build",
     "start:pm2": "pm2 start npm --name realworld  -- run start:production",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "reinstall": "rimraf node_modules && pnpm install",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "reinstall": "rimraf node_modules && pnpm install",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.json\" \"test/**/*.ts\""
   },
   "dependencies": {
     "@nestjs/common": "^9.4.0",
