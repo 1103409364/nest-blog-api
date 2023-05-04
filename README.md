@@ -26,12 +26,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+- 版本 nestjs9
 - 文档 swagger: /docs
 - 监控 monitor: /api/status
 
 ## 环境准备
 
-nestjs9 数据库类型 MySQL8，数据库名称 realworld，nest 启动后自动建表
+- 数据库类型 MySQL8，数据库名称 realworld，nest 启动后自动建表
+- 文件转 PDF 需要先安装 libreoffice
 
 ## Installation
 
