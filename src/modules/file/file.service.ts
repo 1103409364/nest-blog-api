@@ -28,31 +28,33 @@ export class FileService {
   ) {}
   // 文件转换 to pdf FIXME: excel 分页问题
   async convertToPdf(file: Express.Multer.File) {
-    const { filePath, fileName, mimeType } = this.buildFilePath(file);
     const ext = ".pdf";
-    const outputFolder = join(STATIC_PATH, PREVIEW_FOLDER);
-    const outputPath = join(outputFolder, `${fileName}${ext}`);
-    mkdirIfNotExists(outputFolder);
+    const {
+      filePath,
+      fileName,
+      mimeType,
+      outputFilePath,
+      staticPath,
+      previewStaticPath,
+    } = this.buildFilePath(file, ext);
     // Read file
     const fileBuf = await fs.readFile(filePath);
-
     // Convert it to pdf format with undefined filter (see Libreoffice docs about filter)
     const pdfBuf = await convertAsync(fileBuf, ext, undefined).catch((e) => {
       console.log(e);
       return e;
     });
-    if (!pdfBuf) return;
+    if (!pdfBuf) return null;
     // Here in done you have pdf file which you can save or transfer in another stream
-    await fs.writeFile(outputPath, pdfBuf);
+    await fs.writeFile(outputFilePath, pdfBuf);
     // return outputPath;
 
     return await this.save({
       fileName,
-      staticPath: `${SERVE_ROOT}${filePath}`,
+      staticPath,
       filePath,
-      previewPath: outputPath,
-      previewStaticPath:
-        outputPath && `${SERVE_ROOT}${outputPath.replace(STATIC_PATH, "")}`, // 预览方式 ip 端口 + previewStaticPath
+      previewPath: outputFilePath,
+      previewStaticPath,
       mimeType,
       fileSize: file.size,
       uploadTime: new Date(),
@@ -60,7 +62,10 @@ export class FileService {
   }
   // excel 转换 xml
   async convertExcelToXml(file: Express.Multer.File) {
-    const { filePath, fileName } = this.buildFilePath(file);
+    const { filePath, outputFilePath, previewStaticPath } = this.buildFilePath(
+      file,
+      ".xml",
+    );
     // Read file 存储到 diskStorage file.buffer 为 undefined
     const fileBuf = await fs.readFile(filePath);
     // 读取 Excel 文件
@@ -74,9 +79,9 @@ export class FileService {
     // 创建 XML 构建器
     const builder = new Builder();
     const xmlData = {
-      root: {
-        row: excelJson.map((row) => {
-          const newRow = {};
+      fields: {
+        field: excelJson.map((row, id) => {
+          const newRow = { id };
           for (const key in row as Row) {
             newRow[key] = row[key];
           }
@@ -93,48 +98,65 @@ export class FileService {
       return e;
     });
     // XML 文件保存到 outputPath
-    const outputFolder = join(STATIC_PATH, PREVIEW_FOLDER);
-    mkdirIfNotExists(outputFolder);
-    const outputPath = join(outputFolder, `${fileName}.xml`);
-    await fs.writeFile(outputPath, xml);
-    return outputPath
-      ? `${SERVE_ROOT}${outputPath.replace(STATIC_PATH, "")}`
-      : ""; // 下载地址 ip 端口 + previewStaticPath;
+    await fs.writeFile(outputFilePath, xml);
+    // 转为浏览器可用的预览路径 ip 端口 + previewStaticPath;
+    return previewStaticPath;
   }
   // 文件信息入库
   async save(dto: FileEntity) {
     const newFile = new FileEntity();
     Object.assign(newFile, dto);
-    const res = await this.fileRepository.save(newFile);
-    return res;
+    return await this.fileRepository.save(newFile);
   }
   async saveFile(file: Express.Multer.File) {
-    const { filePath, fileName, mimeType } = this.buildFilePath(file);
+    const { filePath, fileName, mimeType, staticPath } = this.buildFilePath(
+      file,
+      "",
+    );
     const res = await this.save({
       fileName,
-      staticPath: `${SERVE_ROOT}${filePath}`,
+      staticPath,
       filePath,
-      previewPath: filePath,
-      previewStaticPath: `${SERVE_ROOT}${filePath}`,
+      previewPath: "",
+      previewStaticPath: "",
       mimeType,
       fileSize: file.size,
       uploadTime: new Date(),
     });
     return res;
   }
-  buildFilePath(file: Express.Multer.File) {
+  // 创建各种路径
+  buildFilePath(file: Express.Multer.File, ext: string) {
     // const ipV4 = await publicIp.v4();
     // 静态资源根目录 + 上传文件目录 + 文件名。配置静态服务和上传路径相同，就能通过服务端 ip + 路径直接访问上传后的文件
     // http://193.123.254.139:3030/static/uploads/DK7ERTWZQWJ4UMQ2VJS2LE-clk011c-1.9.5.pdf
     const mimeType = file.mimetype.split("/")[1];
-    const filePath = `${UPLOAD_FOLDER}/${mimeType || DEFAULT_MIMETYPE}/${
-      file.filename
-    }`;
-
+    // 上传保存路径 拼接路径 https://nodejs.org/api/path.html#path_path_join_paths
+    const filePath = join(
+      UPLOAD_FOLDER,
+      mimeType || DEFAULT_MIMETYPE,
+      file.filename,
+    );
+    const fileName = file.filename.replace(/\..+$/, "");
+    // 转换保存目录
+    const outputFolder = join(STATIC_PATH, PREVIEW_FOLDER);
+    // 转换文件保存路径
+    const outputFilePath = join(outputFolder, `${fileName}${ext}`);
+    // 静态路径
+    const staticPath = join(SERVE_ROOT, filePath);
+    // 预览路径 预览方式 ip 端口 + previewStaticPath
+    const previewStaticPath = join(
+      SERVE_ROOT,
+      outputFilePath.replace(STATIC_PATH, ""),
+    ).replace(/\\/g, "/");
+    mkdirIfNotExists(outputFolder);
     return {
       filePath: `${STATIC_PATH}${filePath}`,
-      fileName: file.filename.replace(/\..+$/, ""),
+      fileName,
       mimeType,
+      outputFilePath,
+      staticPath,
+      previewStaticPath,
     };
     // filename 新名字，在 UploadModule 中配置。originalname 为原文件名
   }
