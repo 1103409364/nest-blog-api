@@ -11,7 +11,7 @@
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production node dist/main",
     "build": "rm -rf dist && nest build",
-    "start:pm2": "pm2 start npm --name realworld  -- run start:production",
+    "start:pm2": "pm2 start npm --name realworld  -- run start:prod",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
