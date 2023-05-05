@@ -92,7 +92,7 @@ export class FileService {
         field: excelJson.map((row, i) => {
           const newRow: PartialRow = { id: i + 1 };
           EXCEL_FIELDS.forEach((field) => {
-            const result = row[field]?.match(/(Varchar)\((\d+)\)/);
+            const result = row[field]?.match(/(Varchar)\((\d+)\)/i);
             if (result) {
               newRow.type =
                 EXCEL_FIELDS_MAP[result[1].toLowerCase()] || result[1];
