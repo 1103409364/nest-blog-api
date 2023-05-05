@@ -101,9 +101,9 @@ export class FileService {
               newRow[field] = row[field] || "";
               newRow[field] = newRow[field]
                 .replace(/\s/g, "")
-                .toLowerCase()
                 .replace(/bigint.*/, "bigint");
-              newRow[field] = EXCEL_FIELDS_MAP[newRow[field]] || newRow[field];
+              newRow[field] =
+                EXCEL_FIELDS_MAP[newRow[field].toLowerCase()] || newRow[field];
             }
           });
           return newRow;
