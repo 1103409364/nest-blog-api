@@ -92,11 +92,14 @@ export class FileService {
         field: excelJson.map((row, i) => {
           const newRow: PartialRow = { id: i + 1 };
           EXCEL_FIELDS.forEach((field) => {
-            const result = row[field]?.match(/(Varchar)\((\d+)\)/i);
+            const result =
+              row[field]?.match(/(varchar)\((\d+)\)/i) ||
+              row[field]?.match(/(decimal)\((\d+),(\d+)\)/i);
             if (result) {
               newRow.type =
                 EXCEL_FIELDS_MAP[result[1].toLowerCase()] || result[1];
               newRow.length = result[2];
+              newRow.scale = result[3] || ""; // 小数位数 精度
             } else if (!newRow[field]) {
               newRow[field] = row[field] || "";
               newRow[field] = newRow[field]
