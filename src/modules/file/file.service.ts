@@ -17,7 +17,9 @@ import { join } from "path";
 import { promisify } from "node:util";
 import * as libre from "libreoffice-convert";
 import { mkdirIfNotExists } from "@/utils/tools";
-import { Row } from "./file";
+import { EXCEL_FIELDS, EXCEL_FIELDS_MAP } from "./constants";
+import { PartialRow } from "./file";
+
 const convertAsync = promisify(libre.convert);
 
 @Injectable()
@@ -77,14 +79,33 @@ export class FileService {
     const excelJson = xlsx.utils.sheet_to_json(sheet);
 
     // 创建 XML 构建器
-    const builder = new Builder();
+    const builder = new Builder({
+      renderOpts: {
+        pretty: true,
+        indent: "  ", // 缩进
+        newline: "\n",
+        allowEmpty: true, // 是否允许空值，即空标签不闭合 <tag></tag>，默认为 false
+      },
+    });
     const xmlData = {
       fields: {
-        field: excelJson.map((row, id) => {
-          const newRow = { id };
-          for (const key in row as Row) {
-            newRow[key] = row[key];
-          }
+        field: excelJson.map((row, i) => {
+          const newRow: PartialRow = { id: i + 1 };
+          EXCEL_FIELDS.forEach((field) => {
+            const result = row[field]?.match(/(Varchar)\((\d+)\)/);
+            if (result) {
+              newRow.type =
+                EXCEL_FIELDS_MAP[result[1].toLowerCase()] || result[1];
+              newRow.length = result[2];
+            } else if (!newRow[field]) {
+              newRow[field] = row[field] || "";
+              newRow[field] = newRow[field]
+                .replace(/\s/g, "")
+                .toLowerCase()
+                .replace(/bigint.*/, "bigint");
+              newRow[field] = EXCEL_FIELDS_MAP[newRow[field]] || newRow[field];
+            }
+          });
           return newRow;
         }),
       },
