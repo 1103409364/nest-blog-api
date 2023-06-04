@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "huizhou.githd",
+    "codezombiech.gitignore",
+    "mikestead.dotenv",
+    "esbenp.prettier-vscode",
+    "rangav.vscode-thunder-client",
+    "quicktype.quicktype",
+    "lllllllqw.jsdoc",
+    "dbaeumer.vscode-eslint",
+    "ashinzekene.nestjs",
+    "abhijoybasak.nestjs-files"
+  ]
+}
