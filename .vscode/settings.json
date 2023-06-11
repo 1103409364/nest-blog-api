@@ -9,5 +9,6 @@
     "custom": true, // Enable the `custom` dictionary
     "internal-terms": false // Disable the `internal-terms` dictionary
   },
+  "prettier.prettierPath": "./node_modules/prettier",
   "npm.packageManager": "pnpm"
 }
