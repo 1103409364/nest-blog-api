@@ -22,12 +22,12 @@ import { OcrModule } from "./modules/ocr/ocr.module";
       load: [ormConfig],
       expandVariables: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
-    }),
+    }), // 配置文件
     TypeOrmModule.forRootAsync({
       useFactory: ormConfig,
-    }),
-    ServeStaticModule.forRoot(serveStaticOption),
-    StatusMonitorModule.forRoot(statusMonitorOption),
+    }), // 数据库
+    ServeStaticModule.forRoot(serveStaticOption), // 静态文件
+    StatusMonitorModule.forRoot(statusMonitorOption), // 监控
     // ScheduleModule.forRoot(),
     // TasksModule,
     UserModule,
@@ -37,7 +37,7 @@ import { OcrModule } from "./modules/ocr/ocr.module";
     FileModule,
     OcrModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, Logger],
+  controllers: [AppController], // 全局控制器
+  providers: [AppService, Logger], // 全局注入 Logger
 })
 export class AppModule {}
