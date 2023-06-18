@@ -11,7 +11,6 @@ import {
   UPLOAD_FOLDER,
 } from "../../config/constants";
 import { FileEntity } from "./entities/file.entity";
-// import * as publicIp from "public-ip";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { promisify } from "node:util";
@@ -151,7 +150,6 @@ export class FileService {
   }
   // 创建各种路径
   buildFilePath(file: Express.Multer.File, ext: string) {
-    // const ipV4 = await publicIp.v4();
     // 静态资源根目录 + 上传文件目录 + 文件名。配置静态服务和上传路径相同，就能通过服务端 ip + 路径直接访问上传后的文件
     // http://193.123.254.139:3030/static/uploads/DK7ERTWZQWJ4UMQ2VJS2LE-clk011c-1.9.5.pdf
     const mimeType = file.mimetype.split("/")[1];
