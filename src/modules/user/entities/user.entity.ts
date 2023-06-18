@@ -29,7 +29,7 @@ export class UserEntity {
   @Column({ default: "" })
   image: string;
 
-  @Column({ select: false })
+  @Column({ select: false }) // select: false means that this field will not be returned in the query results
   password: string;
 
   following?: boolean;
