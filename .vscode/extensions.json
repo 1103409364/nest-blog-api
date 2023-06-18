@@ -11,6 +11,8 @@
     "lllllllqw.jsdoc",
     "dbaeumer.vscode-eslint",
     "ashinzekene.nestjs",
-    "abhijoybasak.nestjs-files"
+    "abhijoybasak.nestjs-files",
+    "mtxr.sqltools-driver-mysql",
+    "mtxr.sqltools"
   ]
 }

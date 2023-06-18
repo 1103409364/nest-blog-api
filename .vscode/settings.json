@@ -10,5 +10,19 @@
     "internal-terms": false // Disable the `internal-terms` dictionary
   },
   "prettier.prettierPath": "./node_modules/prettier",
-  "npm.packageManager": "pnpm"
+  "npm.packageManager": "pnpm",
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "root",
+      "database": "realworld",
+      "username": "root"
+    }
+  ]
 }
