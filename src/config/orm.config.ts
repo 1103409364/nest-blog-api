@@ -13,7 +13,7 @@ export default registerAs(
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME, // 数据库名称
-    // entities: [join(__dirname, "../", "**/**.entity{.ts,.js}")], // 实体类
+    // entities: [join(__dirname, "../", "**/**.entity{.ts,.js}")], // 映射到数据库中的表的实体类
     autoLoadEntities: true, // 自动加载实体类 与上面的 entities 二选一
     synchronize: process.env.DB_SYNC === "1", // 是否自动同步数据库表结构 自动建表、更新表字段等，生产环境不要使用
     logging: false, //process.env.NODE_ENV === 'dev', // 是否打印日志
