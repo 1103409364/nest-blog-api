@@ -27,7 +27,7 @@ export class FileService {
     @InjectRepository(FileEntity)
     private readonly fileRepository: Repository<FileEntity>,
   ) {}
-  // 文件转换 to pdf FIXME: excel 分页问题
+  // 文件转换 to pdf FIXME: excel 分页问题。libreoffice 问题？html table 转 word 的文件转 pdf 页面方向，页边距无效
   async convertToPdf(file: Express.Multer.File) {
     const ext = ".pdf";
     const {
