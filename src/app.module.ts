@@ -15,6 +15,7 @@ import { statusMonitorOption } from "./config/statusMonitor";
 import { serveStaticOption } from "./config/serveStatic";
 // import { TasksModule } from "./modules/tasks/task.module";
 import { OcrModule } from "./modules/ocr/ocr.module";
+import { TranslateModule } from "./modules/translate/translate.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,6 +37,7 @@ import { OcrModule } from "./modules/ocr/ocr.module";
     TagModule,
     FileModule,
     OcrModule,
+    TranslateModule,
   ],
   controllers: [AppController], // 全局控制器
   providers: [AppService, Logger], // 全局注入 Logger

@@ -1,6 +1,6 @@
-import { OcrService } from "./ocr.service";
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { OcrService } from "./ocr.service";
 import { OcrImageDto } from "./dto/ocr-image.dto";
 
 @ApiTags("OCR")
